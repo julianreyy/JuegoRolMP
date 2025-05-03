@@ -3,6 +3,7 @@ package com.juegovampiro.client;
 import com.juegovampiro.model.*;
 import com.juegovampiro.xml.XMLManager;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +24,10 @@ public class Main {
                     case 1 -> registerUser();
                     case 2 -> login();
                     case 3 -> running = false;
+                    case 4 -> {
+                        clearDataFiles();
+                        XMLManager.loadAll("data/");
+                    }
                     default -> System.out.println("Opción inválida.");
                 }
             } else {
@@ -49,6 +54,7 @@ public class Main {
         System.out.println("1. Registrarse");
         System.out.println("2. Entrar");
         System.out.println("3. Salir");
+        System.out.println("4. Borrar datos guardados");
         System.out.print("> ");
     }
 
@@ -249,5 +255,24 @@ public class Main {
                 (char)('0' + r.nextInt(10)) +
                 (char)('A' + r.nextInt(26)) +
                 (char)('A' + r.nextInt(26));
+    }
+
+    private static void clearDataFiles() {
+        File dataDir = new File("data");
+        if (!dataDir.exists() || !dataDir.isDirectory()) {
+            System.out.println("Directorio data/ no encontrado.");
+            return;
+        }
+        File[] xmlFiles = dataDir.listFiles((dir,name)->name.toLowerCase().endsWith(".xml"));
+        if (xmlFiles == null || xmlFiles.length == 0) {
+            System.out.println("No hay ficheros XML para borrar en data/.");
+            return;
+        }
+        int deleted = 0;
+        for (File f: xmlFiles) {
+            if (f.delete() deleted++;
+            System.err.println("No se pudo borrar: " + f.getName());
+        }
+        System.out.printf("Borrados %d ficheros XML de data/.\n", deleted);
     }
 }

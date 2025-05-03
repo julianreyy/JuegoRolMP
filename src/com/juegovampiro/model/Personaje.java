@@ -8,12 +8,10 @@ public abstract class Personaje {
     private int salud;          // 0..5
     private int poder;          // 1..5
     private int oro;            // >=0
-
     private List<Arma> armas;               // todas las armas que posee
     private List<Arma> armasActivas;        // 1 o 2 armas activas según manos
     private Armadura armaduraActiva;        // una sola
     private List<Esbirro> esbirros;         // todos los esbirros (indefinidos)
-
     private List<Debilidad> debilidades;
     private List<Fortaleza> fortalezas;
 
