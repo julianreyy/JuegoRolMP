@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class Usuario {
+    //private int tipo; //1 para operador y 2 para cliente
     private String nombre;
     private String nick;
     private String password;
@@ -15,7 +16,7 @@ public class Usuario {
     private static final Pattern REGISTRO_PATTERN =
             Pattern.compile("^[A-Za-z]\\d{2}[A-Za-z]{2}$");
 
-    public Usuario(String nombre, String nick, String password, String registro) {
+    public Usuario(int tipo, String nombre, String nick, String password, String registro) {
         this.nombre    = nombre;
         this.nick      = nick;
         this.bloqueado = false;

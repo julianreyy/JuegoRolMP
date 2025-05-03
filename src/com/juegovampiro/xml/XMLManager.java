@@ -46,6 +46,7 @@ public class XMLManager {
     public static List<Desafio> desafios = new ArrayList<>();
     public static List<Armadura> armaduras = new ArrayList<>();
     public static List<Arma> armas = new ArrayList<>();
+    public static List<Modificador> modificadores = new ArrayList<>();
     public static List<Don> dones = new ArrayList<>();
     public static List<Disciplina> disciplinas = new ArrayList<>();
     public static List<Talento> talentos = new ArrayList<>();
@@ -339,10 +340,70 @@ public class XMLManager {
         t.transform(new DOMSource(doc), new StreamResult(new File(path)));
     }
 
+    // —— Armaduras —————————————————————————————————————————
+
+
+    public static void loadArmors(String path) throws Exception {
+        armaduras.clear();
+        File f = new File(path);
+        if (!f.exists()) {
+            System.out.println("Aviso: no existe " + path + ", se creará al guardar.");
+            return;
+        }
+        DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        Document doc = db.parse(f);
+        NodeList nodes = doc.getElementsByTagName("armadura");
+
+        for (int i = 0; i < nodes.getLength(); i++) {
+            Element e = (Element) nodes.item(i);
+            String tipo      = e.getAttribute("tipo");
+            String ownerNick = e.getElementsByTagName("nickOwner").item(0).getTextContent();
+
+            Usuario owner = usuarios.stream()
+                    .filter(u -> u.getNick().equals(ownerNick))
+                    .findFirst().orElse(null);
+            if (owner == null) continue;
+
+            String nombre = e.getElementsByTagName("nombre").item(0).getTextContent();
+            int salud      = Integer.parseInt(e.getElementsByTagName("salud").item(0).getTextContent());
+            int poder      = Integer.parseInt(e.getElementsByTagName("poder").item(0).getTextContent());
+            int oro        = Integer.parseInt(e.getElementsByTagName("oro").item(0).getTextContent());
+
+            Personaje p = null;
+            switch (tipo.toLowerCase()) {
+                case "vampiro": {
+                    int edad   = Integer.parseInt(e.getElementsByTagName("edad").item(0).getTextContent());
+                    int sangre = Integer.parseInt(e.getElementsByTagName("sangre").item(0).getTextContent());
+                    Vampiro v = new Vampiro(nombre, salud, poder, oro, edad);
+                    v.setSangre(sangre);
+                    p = v;
+                    break;
+                }
+                case "licantropo": {
+                    Licantropo l = new Licantropo(nombre, salud, poder, oro);
+                    int rabia = Integer.parseInt(e.getElementsByTagName("rabia").item(0).getTextContent());
+                    l.setRabia(rabia);
+                    p = l;
+                    break;
+                }
+                case "cazador": {
+                    Cazador c = new Cazador(nombre, salud, poder, oro);
+                    int voluntad = Integer.parseInt(e.getElementsByTagName("voluntad").item(0).getTextContent());
+                    c.setVoluntad(voluntad);
+                    p = c;
+                    break;
+                }
+            }
+            if (p != null) {
+                personajes.add(p);
+                owner.addPersonaje(p);
+            }
+        }
+    }
+
     // —— Armas —————————————————————————————————————————
 
-
-    public static void loadArmas(String path) throws Exception {
+    public static void loadWeapons(String path) throws Exception {
         armas.clear();
         File f = new File(path);
         if (!f.exists()) {
@@ -398,93 +459,6 @@ public class XMLManager {
                 owner.addPersonaje(p);
             }
         }
-    }
-
-    public static void saveCharacters(String path) throws Exception {
-        DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-        Document doc = db.newDocument();
-
-        Element root = doc.createElement("personajes");
-        doc.appendChild(root);
-
-        for (Usuario u : usuarios) {
-            for (Personaje p : u.getPersonajes()) {
-                Element pe = doc.createElement("personaje");
-                if (p instanceof Vampiro) {
-                    pe.setAttribute("tipo", "vampiro");
-                } else if (p instanceof Licantropo) {
-                    pe.setAttribute("tipo", "licantropo");
-                } else if (p instanceof Cazador) {
-                    pe.setAttribute("tipo", "cazador");
-                }
-
-                Element owner = doc.createElement("nickOwner");
-                owner.setTextContent(u.getNick());
-                pe.appendChild(owner);
-
-                Element en = doc.createElement("nombre");
-                en.setTextContent(p.getNombre());
-                pe.appendChild(en);
-
-                Element es = doc.createElement("salud");
-                es.setTextContent(String.valueOf(p.getSalud()));
-                pe.appendChild(es);
-
-                Element ep = doc.createElement("poder");
-                ep.setTextContent(String.valueOf(p.getPoder()));
-                pe.appendChild(ep);
-
-                Element eo = doc.createElement("oro");
-                eo.setTextContent(String.valueOf(p.getOro()));
-                pe.appendChild(eo);
-
-                Element ar = doc.createElement("armas");
-                ar.setTextContent(String.valueOf(p.getArmas()));
-                pe.appendChild(ar);
-
-                Element ad = doc.createElement("armaActiva");
-                ad.setTextContent(String.valueOf(p.getArmasActivas()));
-                pe.appendChild(ad);
-
-                Element am = doc.createElement("armaduraActiva");
-                am.setTextContent(String.valueOf(p.getArmaduraActiva()));
-                pe.appendChild(am);
-
-                Element de = doc.createElement("debilidades");
-                de.setTextContent(String.valueOf(p.getDebilidades()));
-                pe.appendChild(de);
-
-                Element fo = doc.createElement("fortalezas");
-                fo.setTextContent(String.valueOf(p.getFortalezas()));
-                pe.appendChild(fo);
-
-                if (p instanceof Vampiro) {
-                    Vampiro v = (Vampiro) p;
-                    Element eEdad = doc.createElement("edad");
-                    eEdad.setTextContent(String.valueOf(v.getEdad()));
-                    pe.appendChild(eEdad);
-                    Element eSang = doc.createElement("sangre");
-                    eSang.setTextContent(String.valueOf(v.getSangre()));
-                    pe.appendChild(eSang);
-                } else if (p instanceof Licantropo) {
-                    Licantropo l = (Licantropo) p;
-                    Element eRabia = doc.createElement("rabia");
-                    eRabia.setTextContent(String.valueOf(l.getRabia()));
-                    pe.appendChild(eRabia);
-                } else if (p instanceof Cazador) {
-                    Cazador c = (Cazador) p;
-                    Element eVol = doc.createElement("voluntad");
-                    eVol.setTextContent(String.valueOf(c.getVoluntad()));
-                    pe.appendChild(eVol);
-                }
-
-                root.appendChild(pe);
-            }
-        }
-
-        Transformer t = TransformerFactory.newInstance().newTransformer();
-        t.setOutputProperty(OutputKeys.INDENT, "yes");
-        t.transform(new DOMSource(doc), new StreamResult(new File(path)));
     }
 
     // —— Combates —————————————————————————————————————————
@@ -579,4 +553,54 @@ public class XMLManager {
         t.setOutputProperty(OutputKeys.INDENT, "yes");
         t.transform(new DOMSource(doc), new StreamResult(new File(path)));
     }
+
+    public static void loadModifiers(String path) throws Exception {
+        modificadores.clear();
+        File f = new File(path);
+        if (!f.exists()) {
+            System.out.println("Aviso: no existe " + path + ", se creará al guardar.");
+            return;
+        }
+        DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        Document doc = db.parse(f);
+        NodeList nodes = doc.getElementsByTagName("modificadores");
+
+        for (int i = 0; i < nodes.getLength(); i++) {
+            Element e = (Element) nodes.item(i);
+            String tipo      = e.getAttribute("tipo");
+            String ownerNick = e.getElementsByTagName("nickOwner").item(0).getTextContent();
+
+            Usuario owner = usuarios.stream()
+                    .filter(u -> u.getNick().equals(ownerNick))
+                    .findFirst().orElse(null);
+            if (owner == null) continue;
+
+            String nombre = e.getElementsByTagName("nombre").item(0).getTextContent();
+            int salud      = Integer.parseInt(e.getElementsByTagName("salud").item(0).getTextContent());
+            int poder      = Integer.parseInt(e.getElementsByTagName("poder").item(0).getTextContent());
+            int oro        = Integer.parseInt(e.getElementsByTagName("oro").item(0).getTextContent());
+
+            Personaje p = null;
+            switch (tipo.toLowerCase()) {
+                case "vampiro": {
+                    int edad   = Integer.parseInt(e.getElementsByTagName("edad").item(0).getTextContent());
+                    int sangre = Integer.parseInt(e.getElementsByTagName("sangre").item(0).getTextContent());
+                    Vampiro v = new Vampiro(nombre, salud, poder, oro, edad);
+                    v.setSangre(sangre);
+                    p = v;
+                    break;
+                    
+            if (p != null) {
+                personajes.add(p);
+                owner.addPersonaje(p);
+            }
+        }
+    }
+
+    public static void loadGifts(String path) throws Exception {}
+
+    public static void loadDisciplines(String path) throws Exception {}
+
+    public static void loadTalents(String path) throws Exception {}
+
 }

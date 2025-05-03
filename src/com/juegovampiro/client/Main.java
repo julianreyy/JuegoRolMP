@@ -75,7 +75,7 @@ public class Main {
     private static void showUserMenu() {
         System.out.printf("\n--- %s (%s) ---\n", currentUser.getNombre(), currentUser.getNick());
         System.out.println("1. Crear personaje");
-        System.out.println("2. Listar personajes");
+        System.out.println("2. Ver listado de personajes");
         System.out.println("3. Equipar personaje");
         System.out.println("4. Desafiar usuario");
         System.out.println("5. Gestionar desafíos");
@@ -103,6 +103,7 @@ public class Main {
     // ───────────── INVITADO ─────────────
 
     private static void registerUser() throws Exception {
+        //System.out.print("Tipo de usuario: 1. Operador, 2. Cliente");   int tipo = sc.nextInt();
         System.out.print("Nombre: ");   String nombre = sc.nextLine().trim();
         System.out.print("Nick: ");     String nick   = sc.nextLine().trim();
         System.out.print("Password: "); String pwd    = sc.nextLine().trim();
@@ -119,7 +120,7 @@ public class Main {
             }
         }
 
-        Usuario u = new Usuario(nombre, nick, pwd, reg);
+        Usuario u = new Usuario(tipo, nombre, nick, pwd, reg);
         XMLManager.usuarios.add(u);
         XMLManager.saveAll("data/");
         System.out.println("Registrado. Tu código: " + reg);
@@ -299,7 +300,7 @@ public class Main {
         }
         int deleted = 0;
         for (File f: xmlFiles) {
-            if (f.delete() deleted++;
+            if (f.delete()) deleted++;
             System.err.println("No se pudo borrar: " + f.getName());
         }
         System.out.printf("Borrados %d ficheros XML de data/.\n", deleted);
