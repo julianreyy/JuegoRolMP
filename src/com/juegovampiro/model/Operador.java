@@ -5,15 +5,13 @@ package com.juegovampiro.model;
  * pero NO número de registro.
  */
 public class Operador extends Usuario {
-
     public Operador(String nombre, String nick, String password) {
         super(nombre, nick, password, null);
     }
 
     @Override
     public String toString() {
-        return String.format("Operador[nombre=%s, nick=%s]", getNombre(), getNick());
+        return String.format("Operador[nombre=%s, nick=%s]",
+                getNombre(), getNick());
     }
-
-    // Aquí añadiremos más métodos de gestión (editar personajes, validar desafíos…).
 }

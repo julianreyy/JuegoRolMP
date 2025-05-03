@@ -5,14 +5,14 @@ import java.util.List;
 
 public class Vampiro extends Personaje {
     private int sangre;   // 0..10
-    private int edad;
+    private int edad;     // edad en años
     private List<Disciplina> disciplinas;
 
     public Vampiro(String nombre, int salud, int poder, int oro, int edad) {
         super(nombre, salud, poder, oro);
-        this.edad = edad;
-        this.sangre = 0;
         this.disciplinas = new ArrayList<>();
+        setEdad(edad);
+        this.sangre = 0;
     }
 
     public int getSangre() {
@@ -27,6 +27,12 @@ public class Vampiro extends Personaje {
 
     public int getEdad() {
         return edad;
+    }
+
+    /** Ajusta la edad del vampiro; mínima 0, no hay máximo estricto */
+    public void setEdad(int edad) {
+        if (edad < 0) edad = 0;
+        this.edad = edad;
     }
 
     public List<Disciplina> getDisciplinas() {

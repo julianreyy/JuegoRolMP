@@ -1,11 +1,21 @@
 package com.juegovampiro.xml;
 
+import com.juegovampiro.model.Usuario;
+import com.juegovampiro.model.Operador;
+import com.juegovampiro.model.Personaje;
+import com.juegovampiro.model.Vampiro;
+import com.juegovampiro.model.Licantropo;
+import com.juegovampiro.model.Cazador;
+import com.juegovampiro.model.Combate;
+import com.juegovampiro.model.Ronda;
+import com.juegovampiro.model.Desafio;
 import com.juegovampiro.model.*;
 
 import java.lang.reflect.Field;
 
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,13 +26,16 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 public class XMLManager {
 
@@ -121,16 +134,23 @@ public class XMLManager {
         NodeList nodes = doc.getElementsByTagName("usuario");
         for (int i = 0; i < nodes.getLength(); i++) {
             Element e = (Element) nodes.item(i);
-            String tipo = e.getAttribute("tipo");
-            String nombre = e.getElementsByTagName("nombre").item(0).getTextContent();
-            String nick   = e.getElementsByTagName("nick").item(0).getTextContent();
+            String tipo   = e.getAttribute("tipo");
+            String nombre = e.getElementsByTagName("nombre"  ).item(0).getTextContent();
+            String nick   = e.getElementsByTagName("nick"    ).item(0).getTextContent();
             String pwd    = e.getElementsByTagName("password").item(0).getTextContent();
+            Usuario u;
             if ("operador".equalsIgnoreCase(tipo)) {
-                usuarios.add(new Operador(nombre, nick, pwd));
+                u = new Operador(nombre, nick, pwd);
             } else {
                 String reg = e.getElementsByTagName("registro").item(0).getTextContent();
-                usuarios.add(new Usuario(nombre, nick, pwd, reg));
+                u = new Usuario(nombre, nick, pwd, reg);
             }
+            // cargar atributo bloqueado
+            String blk = e.getAttribute("bloqueado");
+            if ("true".equalsIgnoreCase(blk)) {
+                u.setBloqueado(true);
+            }
+            usuarios.add(u);
         }
     }
 
@@ -143,7 +163,8 @@ public class XMLManager {
 
         for (Usuario u : usuarios) {
             Element eu = doc.createElement("usuario");
-            eu.setAttribute("tipo", (u instanceof Operador) ? "operador" : "cliente");
+            eu.setAttribute("tipo", u instanceof Operador ? "operador" : "cliente");
+            eu.setAttribute("bloqueado", String.valueOf(u.isBloqueado()));
 
             Element en = doc.createElement("nombre");
             en.setTextContent(u.getNombre());
