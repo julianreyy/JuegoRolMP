@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<personajes>
+    <personaje tipo="vampiro">
+        <nickOwner>kkkk</nickOwner>
+        <nombre>vampiri</nombre>
+        <salud>5</salud>
+        <poder>5</poder>
+        <oro>100</oro>
+        <edad>55</edad>
+        <sangre>0</sangre>
+    </personaje>
+    <personaje tipo="licantropo">
+        <nickOwner>jjjj</nickOwner>
+        <nombre>lobito</nombre>
+        <salud>5</salud>
+        <poder>5</poder>
+        <oro>100</oro>
+        <rabia>0</rabia>
+    </personaje>
+</personajes>
