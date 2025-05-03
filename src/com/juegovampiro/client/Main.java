@@ -25,6 +25,20 @@ public class Main {
                     case 3 -> running = false;
                     default -> System.out.println("Opción inválida.");
                 }
+
+            } else if (currentUser instanceof Operador) {
+                showOperatorMenu();
+                switch (readInt()) {
+                    case 1 -> OperatorManager.registerOperador();
+                    case 2 -> OperatorManager.darBajaUsuario();
+                    case 3 -> OperatorManager.editarPersonaje();
+                    case 4 -> OperatorManager.anyadirAlPersonaje();
+                    case 5 -> OperatorManager.validarDesafio();
+                    case 6 -> OperatorManager.blockUser();
+                    case 7 -> OperatorManager.unblockUser();
+                    case 8 -> logout();
+                    default -> System.out.println("Opción inválida.");
+                }
             } else {
                 showUserMenu();
                 switch (readInt()) {
@@ -37,7 +51,7 @@ public class Main {
                     case 7 -> verRankingGlobal();
                     case 8 -> logout();
                     default -> System.out.println("Opción inválida.");
-                }
+            }
             }
         }
         XMLManager.saveAll("data/");
@@ -62,6 +76,21 @@ public class Main {
         System.out.println("6. Ver historial de combates");
         System.out.println("7. Ver ranking global");
         System.out.println("8. Cerrar sesión");
+        System.out.print("> ");
+    }
+
+    private static void showOperatorMenu() {
+        System.out.printf("\n--- Menú OPERADOR [%s] ---\n", currentUser.getNick());
+        System.out.println("1. Alta Operador");
+        System.out.println("2. Baja Usuario/Operador");
+        System.out.println("3. Editar Personaje");
+        System.out.println("4. Añadir Equipo/Fort/Dev/Esb");
+        System.out.println("5. Validar Desafío");
+        System.out.println("6. Bloquear Usuario");
+        System.out.println("7. Desbloquear Usuario");
+        System.out.println("8. Promover Usuario a Operador");
+        System.out.println("9. Degradar Operador a Cliente");
+        System.out.println("10. Cerrar sesión");
         System.out.print("> ");
     }
 
