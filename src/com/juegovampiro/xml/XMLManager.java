@@ -233,21 +233,19 @@ public class XMLManager {
                 int numArmas = e.getElementsByTagName("armas").getLength();
                 NodeList nodoArmas = e.getElementsByTagName("armas");
                 for (int contadorArmas = 0; contadorArmas < numArmas; contadorArmas++) {
-                    NodeList hojasArmas = (NodeList) nodoArmas.item(contadorArmas);
-                    String nombreArma = hojasArmas.item(0).getTextContent();
+                    String nombreArma = nodoArmas.item(contadorArmas).getTextContent();
                     Arma arma = armas.get(getArmaNum(nombreArma));
                     p.addArma(arma);
-                    numArmas++;
+                    //numArmas++;
                 }
 
                 int numArmasAct = e.getElementsByTagName("armasActivas").getLength();
                 NodeList nodoArmasAct = e.getElementsByTagName("armasActivas");
                 for (int contadorArmasA = 0; contadorArmasA < numArmasAct; contadorArmasA++) {
-                    NodeList hojasArmasAct = (NodeList) nodoArmasAct.item(contadorArmasA);
-                    String nombreArmaAct = hojasArmasAct.item(0).getTextContent();
+                    String nombreArmaAct = nodoArmasAct.item(contadorArmasA).getTextContent();
                     Arma armaA = armas.get(getArmaNum(nombreArmaAct));
                     p.activarArma(armaA);
-                    numArmasAct++;
+                    //numArmasAct++;
                 }
 
                 int numArmaduras = e.getElementsByTagName("armaduras").getLength();
@@ -781,7 +779,7 @@ public class XMLManager {
         int k = 0;
         int numTalent = -1;
         for (Arma ar : armas) {
-            if (n.equals(ar.getNombre())) {
+            if (n.trim().equals(ar.getNombre())) {
                 numTalent = k;
             }
             k++;
@@ -792,7 +790,7 @@ public class XMLManager {
         int k = 0;
         int numTalent = -1;
         for (Armadura am : armaduras) {
-            if (n.equals(am.getNombre())) {
+            if (n.trim().equals(am.getNombre())) {
                 numTalent = k;
             }
             k++;

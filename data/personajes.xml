@@ -9,28 +9,12 @@
         <armas>
             <arma1>Espadita</arma1>
         </armas>
-        <armasActivas></armasActivas>
-        <armaduraActiva></armaduraActiva>
+        <armasActivas>Espadita</armasActivas>
+        <armaduraActiva>Casco Blindado</armaduraActiva>
         <debilidades></debilidades>
         <fortalezas></fortalezas>
         <edad>55</edad>
         <sangre>0</sangre>
         <disciplina>sangreDura</disciplina>
-    </personaje>
-    <personaje tipo="licantropo">
-        <nickOwner>jjjj</nickOwner>
-        <nombre>lobito</nombre>
-        <salud>5</salud>
-        <poder>5</poder>
-        <oro>100</oro>
-        <armas></armas>
-        <armaActiva></armaActiva>
-        <armaduraActiva></armaduraActiva>
-        <debilidades></debilidades>
-        <fortalezas></fortalezas>
-        <rabia>0</rabia>
-        <don>peloGrueso</don>
-        <peso>87</peso>
-        <altura>179</altura>
     </personaje>
 </personajes>
