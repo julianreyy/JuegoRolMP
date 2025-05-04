@@ -23,14 +23,30 @@ public class Licantropo extends Personaje {
         return isHuman;
     }
 
+    public void setIsHuman(boolean isHuman) {
+        this.isHuman = isHuman;
+    }
+
     public int getPeso() {
         return peso;
+    }
+
+    public void setPeso(int peso) {
+        this.peso = peso;
     }
 
     public int getAltura() {
         return altura;
     }
 
+    public void setAltura(int altura) {
+        this.altura = altura;
+    }
+
+
+    public int getRabia() {
+        return rabia;
+    }
 
     public void setRabia(int rabia) {
         if (rabia < 0) rabia = 0;

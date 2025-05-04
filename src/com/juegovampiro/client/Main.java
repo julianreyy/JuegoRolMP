@@ -84,21 +84,20 @@ public class Main {
         System.out.println("6. Ver historial de combates");
         System.out.println("7. Ver ranking global");
         System.out.println("8. Cerrar sesión");
+        System.out.println("9. Borrar personaje");
+        System.out.println("10. Borrar usuario");
         System.out.print("> ");
     }
 
     private static void showOperatorMenu() {
         System.out.printf("\n--- Menú OPERADOR [%s] ---\n", currentUser.getNick());
-        System.out.println("1. Alta Operador");
-        System.out.println("2. Baja Usuario/Operador");
-        System.out.println("3. Editar Personaje");
-        System.out.println("4. Añadir Equipo/Fort/Dev/Esb");
-        System.out.println("5. Validar Desafío");
-        System.out.println("6. Bloquear Usuario");
-        System.out.println("7. Desbloquear Usuario");
-        System.out.println("8. Promover Usuario a Operador");
-        System.out.println("9. Degradar Operador a Cliente");
-        System.out.println("10. Cerrar sesión");
+        System.out.println("1. Baja Usuario/Operador");
+        System.out.println("2. Editar Personaje");
+        System.out.println("3. Añadir Equipo/Fort/Dev/Esb");
+        System.out.println("4. Validar Desafío");
+        System.out.println("5. Bloquear Usuario");
+        System.out.println("6. Desbloquear Usuario");
+        System.out.println("7. Cerrar sesión");
         System.out.print("> ");
     }
 
@@ -359,6 +358,12 @@ public class Main {
             Personaje p = all.get(i);
             System.out.printf("%d) %s – Oro: %d\n", i+1, p.getNombre(), p.getOro());
         }
+    }
+
+    private static void borrarPersonaje() {
+    }
+
+    private static void borrarUsuario() {
     }
 
     // ───────────── OPERADOR ─────────────
