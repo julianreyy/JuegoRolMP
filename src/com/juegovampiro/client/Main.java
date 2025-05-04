@@ -35,7 +35,7 @@ public class Main {
                 showOperatorMenu();
                 switch (readInt()) {
                     //case 1 -> OperatorManager.registerOperador();
-                    case 1 -> registerOperador();
+                    case 1 -> registerOperador(); //sobra
                     case 2 -> darBajaUsuario();
                     case 3 -> editarPersonaje();
                     case 4 -> addAlPersonaje();
@@ -48,6 +48,7 @@ public class Main {
             } else {
                 showUserMenu();
                 switch (readInt()) {
+                    //añadir dar de baja usuario
                     case 1 -> crearPersonaje();
                     case 2 -> listarPersonajes();
                     case 3 -> equiparPersonaje();
