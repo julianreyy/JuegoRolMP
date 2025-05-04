@@ -108,14 +108,14 @@ public abstract class Personaje {
         return fortalezas;
     }
 
-    // Métodos de conveniencia
-    //public void addArma(Arma a) {
-    //  armas.add(a);
-    //}
+     Métodos de conveniencia
+    public void addArma(Arma a) {
+      armas.add(a);
+    }
 
-    //public void addArmadura(Arma a) {
-      //  armaduras.add(a);
-    //}
+    public void addArmadura(Arma a) {
+        armaduras.add(a);
+    }
     /**
      * Activa una nueva arma respetando el límite de manos:
      * - Si es de dos manos, limpia armasActivas y añade solo esta.
