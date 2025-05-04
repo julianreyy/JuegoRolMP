@@ -229,6 +229,38 @@ public class XMLManager {
                 }
             }
             if (p != null) {
+
+                int numArmas = e.getElementsByTagName("armas").getLength();
+                for (int contadorArmas = 0; contadorArmas < numArmas; contadorArmas++) {
+                    String armaX = e.getElementsByTagName("armas").item(contadorArmas).getTextContent(); //puede fallar
+                    // ya que no profundiza lo suficiente en el xml, le pregunta text al nodo "arma1" padre del texto que buscamos
+                    Arma arma = armas.get(getArmaNum(armaX));
+                    p.addArma(arma);
+                    numArmas++;
+                }
+
+                int numArmasAct = e.getElementsByTagName("armasActivas").getLength();
+                for (int contadorArmasA = 0; contadorArmasA < numArmasAct; contadorArmasA++) {
+                    String armaX = e.getElementsByTagName("armasActivas").item(contadorArmasA).getTextContent(); //puede fallar
+                    // ya que no profundiza lo suficiente en el xml, le pregunta text al nodo "arma1" padre del texto que buscamos
+                    Arma armaA = armas.get(getArmaNum(armaX));
+                    p.addArma(armaA);
+                    numArmasAct++;
+                }
+
+                int numArmaduras = e.getElementsByTagName("armaduras").getLength();
+                for (int contadorArmaduras = 0; contadorArmaduras < numArmasAct; contadorArmaduras++) {
+                    String armaX = e.getElementsByTagName("armaduras").item(contadorArmaduras).getTextContent(); //puede fallar
+                    // ya que no profundiza lo suficiente en el xml, le pregunta text al nodo "arma1" padre del texto que buscamos
+                    Arma armaA = armaduras.get(getArmaNum(armaX));
+                    p.addArma(armaA);
+                    numArmasAct++;
+                }
+
+                String armaduraActiva = e.getElementsByTagName("armaduraActiva").item(0).getTextContent();
+                Armadura armaduraAct = armaduras.get(getArmaduraNum(armaduraActiva));
+
+                p.setArmaduraActiva(armaduraAct);
                 personajes.add(p);
                 owner.addPersonaje(p);
             }
@@ -274,16 +306,42 @@ public class XMLManager {
                 pe.appendChild(eo);
 
                 Element ar = doc.createElement("armas");
-                ar.setTextContent(String.valueOf(p.getArmas()));
+                int aritc = 1;
+                for (Arma a: p.getArmas()) {
+                    Element arit = doc.createElement("arma"+aritc);
+                    arit.setTextContent(String.valueOf(a.getNombre()));
+                    ar.appendChild(arit);
+                    aritc++;
+                }
                 pe.appendChild(ar);
 
-                Element ad = doc.createElement("armaActiva");
-                ad.setTextContent(String.valueOf(p.getArmasActivas()));
+                Element ad = doc.createElement("armasActivas");
+                int aractitc = 1;
+                for (Arma a2: p.getArmasActivas()) {
+                    Element aractit = doc.createElement("armaActiva"+aractitc);
+                    aractit.setTextContent(String.valueOf(a2.getNombre()));
+                    ar.appendChild(aractit);
+                    aractitc++;
+                }
                 pe.appendChild(ad);
 
-                Element am = doc.createElement("armaduraActiva");
-                am.setTextContent(String.valueOf(p.getArmaduraActiva()));
+                Element am = doc.createElement("armaduras");
+                int amitc = 1;
+                for (Armadura ama: p.getArmaduras()) {
+                    Element amit = doc.createElement("armaduras"+amitc);
+                    amit.setTextContent(String.valueOf(ama.getNombre()));
+                    am.appendChild(amit);
+                    amitc++;
+                }
                 pe.appendChild(am);
+
+                Element am2 = doc.createElement("armaduraActiva");
+                if (p.getArmaduraActiva() != null) {
+                    am2.setTextContent(String.valueOf(p.getArmaduraActiva().getNombre()));
+                } else {
+                    am2.setTextContent("null");
+                }
+                pe.appendChild(am2);
 
                 Element de = doc.createElement("debilidades");
                 de.setTextContent(String.valueOf(p.getDebilidades()));
@@ -302,7 +360,7 @@ public class XMLManager {
                     eSang.setTextContent(String.valueOf(v.getSangre()));
                     pe.appendChild(eSang);
                     Element eDisciplina = doc.createElement("disciplina");
-                    eDisciplina.setTextContent(String.valueOf(v.getDisciplina()));
+                    eDisciplina.setTextContent(String.valueOf(v.getDisciplina().getNombre()));
                     pe.appendChild(eDisciplina);
                 } else if (p instanceof Licantropo) {
                     Licantropo l = (Licantropo) p;
@@ -310,7 +368,7 @@ public class XMLManager {
                     eRabia.setTextContent(String.valueOf(l.getRabia()));
                     pe.appendChild(eRabia);
                     Element eDon = doc.createElement("don");
-                    eDon.setTextContent(String.valueOf(l.getDon()));
+                    eDon.setTextContent(String.valueOf(l.getDon().getNombre()));
                     pe.appendChild(eDon);
                     Element ePeso = doc.createElement("peso");
                     ePeso.setTextContent(String.valueOf(l.getPeso()));
@@ -324,7 +382,7 @@ public class XMLManager {
                     eVol.setTextContent(String.valueOf(c.getVoluntad()));
                     pe.appendChild(eVol);
                     Element eTalento = doc.createElement("talento");
-                    eTalento.setTextContent(String.valueOf(c.getTalento()));
+                    eTalento.setTextContent(String.valueOf(c.getTalento().getNombre()));
                     pe.appendChild(eTalento);
                 }
 
@@ -710,6 +768,28 @@ public class XMLManager {
         int numTalent = -1;
         for (Talento d : talentos) {
             if (n.equals(d.getNombre())) {
+                numTalent = k;
+            }
+            k++;
+        }
+        return numTalent;
+    }
+    private static int getArmaNum(String n){
+        int k = 0;
+        int numTalent = -1;
+        for (Arma ar : armas) {
+            if (n.equals(ar.getNombre())) {
+                numTalent = k;
+            }
+            k++;
+        }
+        return numTalent;
+    }
+    private static int getArmaduraNum(String n){
+        int k = 0;
+        int numTalent = -1;
+        for (Armadura am : armaduras) {
+            if (n.equals(am.getNombre())) {
                 numTalent = k;
             }
             k++;

@@ -285,6 +285,7 @@ public class Main {
         }
         } while (!stop);
     }
+
     private static void  addModificadores (Personaje per){
         List<Debilidad> debilidades = new ArrayList<>();
         List<Fortaleza> fortalezas = new ArrayList<>();
@@ -329,28 +330,65 @@ public class Main {
             System.out.printf("%d) %s\n", i+1, lst.get(i));
         }
     }
-
+    private static void listarArmas() {
+        List<Arma> lst = XMLManager.armas;
+        if (lst.isEmpty()) {
+            System.out.println("No hay armas.");
+            return;
+        }
+        for (int i = 0; i < lst.size(); i++) {
+            System.out.printf("%d) %s\n", i+1, lst.get(i));
+        }
+    }
+    private static void listarArmaduras() {
+        List<Armadura> lst = XMLManager.armaduras;
+        if (lst.isEmpty()) {
+            System.out.println("No hay armaduras.");
+            return;
+        }
+        for (int i = 0; i < lst.size(); i++) {
+            System.out.printf("%d) %s\n", i+1, lst.get(i));
+        }
+    }
 
     private static void equiparPersonaje() throws Exception {
         List<Personaje> lst = currentUser.getPersonajes();
         if (lst.isEmpty()) { System.out.println("No tienes personajes."); return; }
+        listarPersonajes();
         System.out.print("Elige nº de personaje: "); Personaje p = lst.get(readInt()-1);
         System.out.println("1) Añadir arma  2) Poner armadura");
-        if (readInt() == 1) {
-            System.out.print("Nombre arma: "); String n = sc.nextLine();
-            System.out.print("ModAtq (1–3): "); int ma = readInt();
-            System.out.print("ModDef (1–3): "); int md = readInt();
-            System.out.print("Manos(1|2): ");   int m  = readInt();
-            Arma a = new Arma(n, ma, md, m);
-            if (p.activarArma(a)) System.out.println("Arma activa.");
-            else System.out.println("No se ha podido activar el arma.");
-        } else {
-            System.out.print("Nombre armadura: "); String n2 = sc.nextLine();
-            System.out.print("ModDef(1–3): ");       int md2 = readInt();
-            System.out.print("ModAtq(1–3): ");       int ma2 = readInt();
-            Armadura ar = new Armadura(n2, ma2, md2);
-            p.setArmaduraActiva(ar);
-            System.out.println("Armadura puesta.");
+        switch (readInt()) {
+            case 1 -> {
+                listarArmas();
+                System.out.print("Número arma: ");
+                //String n = sc.nextLine();
+                int n = readInt();
+                //System.out.print("ModAtq (1–3): ");
+                int ma = XMLManager.armas.get(n).getModAtaque(); // =readInt();
+                //System.out.print("ModDef (1–3): ");
+                int md = XMLManager.armas.get(n).getModDefensa();
+                //System.out.print("Manos(1|2): ");
+                int m = XMLManager.armas.get(n).getManos();
+                String nombre = XMLManager.armas.get(n).getNombre();
+                Arma a = new Arma(nombre, ma, md, m);
+                if (p.activarArma(a)) System.out.println("Arma activa.");
+                else System.out.println("No se ha podido activar el arma.");
+            }
+            case 2 -> {
+                listarArmaduras();
+                System.out.print("Número armadura: ");
+                //String n2 = sc.nextLine();
+                int n2 = readInt();
+                //System.out.print("ModDef(1–3): ");
+                int ma2 = XMLManager.armaduras.get(n2).getModAtaque();
+                //System.out.print("ModAtq(1–3): ");
+                int md2 = XMLManager.armaduras.get(n2).getModDefensa();
+                String nombre2 = XMLManager.armaduras.get(n2).getNombre();
+                Armadura ar = new Armadura(nombre2, ma2, md2);
+                p.setArmaduraActiva(ar);
+                System.out.println("Armadura puesta.");
+            }
+            default -> System.out.println("Opción inválida.");
         }
         XMLManager.saveAll("data/");
     }
