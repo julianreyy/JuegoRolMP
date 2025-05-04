@@ -8,9 +8,9 @@ public abstract class Personaje {
     private int salud;          // 0..5
     private int poder;          // 1..5
     private int oro;            // >=0
-    //private List<Arma> armas;               // todas las armas que posee
+    private List<Arma> armas;               // todas las armas que posee
     private List<Arma> armasActivas;        // 1 o 2 armas activas según manos
-    //private List<Armadura> armaduras;
+    private List<Armadura> armaduras;
     private Armadura armaduraActiva;        // una sola
     private List<Esbirro> esbirros;// todos los esbirros (indefinidos)
     private int saludEsbirros ;
@@ -109,13 +109,13 @@ public abstract class Personaje {
     }
 
     // Métodos de conveniencia
-    //public void addArma(Arma a) {
-    //  armas.add(a);
-    //}
+    public void addArma(Arma a) {
+      armas.add(a);
+    }
 
-    //public void addArmadura(Arma a) {
-      //  armaduras.add(a);
-    //}
+    public void addArmadura(Armadura a) {
+        armaduras.add(a);
+    }
     /**
      * Activa una nueva arma respetando el límite de manos:
      * - Si es de dos manos, limpia armasActivas y añade solo esta.

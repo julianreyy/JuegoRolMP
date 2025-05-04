@@ -204,7 +204,7 @@ public class XMLManager {
                     break;
                 }
                 case "licantropo": {
-                    Licantropo l = new Licantropo(nombre, salud, poder, oro, peso, altura, don);
+                    Licantropo l = new Licantropo(nombre, salud, poder, oro);
                     int rabia = Integer.parseInt(e.getElementsByTagName("rabia").item(0).getTextContent());
                     l.setRabia(rabia);
                     p = l;
@@ -365,28 +365,39 @@ public class XMLManager {
         for (int i = 0; i < nodes.getLength(); i++) {
             Element e = (Element) nodes.item(i);
             String nombre = e.getElementsByTagName("nombre").item(0).getTextContent();
-            int atq = Integer.parseInt(e.getElementsByTagName("ataque").item(0).getTextContent());
-            int def = Integer.parseInt(e.getElementsByTagName("defensa").item(0).getTextContent());
-            armaduras.add(new Armadura(nombre, atq, def));
-        }
-    }
+            int salud = Integer.parseInt(e.getElementsByTagName("salud").item(0).getTextContent());
+            int poder = Integer.parseInt(e.getElementsByTagName("poder").item(0).getTextContent());
+            int oro = Integer.parseInt(e.getElementsByTagName("oro").item(0).getTextContent());
 
-    public static void saveArmaduras(String path) throws Exception {
-        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-        Element root = doc.createElement("armors");
-        doc.appendChild(root);
-        for (Armadura a : armaduras) {
-            Element ea = doc.createElement("armadura");
-            Element en = doc.createElement("nombre");
-            en.setTextContent(a.getNombre());
-            ea.appendChild(en);
-            Element at = doc.createElement("ataque");
-            at.setTextContent("" + a.getModAtaque());
-            ea.appendChild(at);
-            Element df = doc.createElement("defensa");
-            df.setTextContent("" + a.getModDefensa());
-            ea.appendChild(df);
-            root.appendChild(ea);
+            Personaje p = null;
+            switch (tipo.toLowerCase()) {
+                case "vampiro": {
+                    int edad = Integer.parseInt(e.getElementsByTagName("edad").item(0).getTextContent());
+                    int sangre = Integer.parseInt(e.getElementsByTagName("sangre").item(0).getTextContent());
+                    Vampiro v = new Vampiro(nombre, salud, poder, oro, edad);
+                    v.setSangre(sangre);
+                    p = v;
+                    break;
+                }
+                case "licantropo": {
+                    Licantropo l = new Licantropo(nombre, salud, poder, oro);
+                    int rabia = Integer.parseInt(e.getElementsByTagName("rabia").item(0).getTextContent());
+                    l.setRabia(rabia);
+                    p = l;
+                    break;
+                }
+                case "cazador": {
+                    Cazador c = new Cazador(nombre, salud, poder, oro);
+                    int voluntad = Integer.parseInt(e.getElementsByTagName("voluntad").item(0).getTextContent());
+                    c.setVoluntad(voluntad);
+                    p = c;
+                    break;
+                }
+            }
+            if (p != null) {
+                personajes.add(p);
+                owner.addPersonaje(p);
+            }
         }
         Transformer t = TransformerFactory.newInstance().newTransformer();
         t.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -587,73 +598,38 @@ public class XMLManager {
         NodeList nodes = doc.getElementsByTagName("don");
         for (int i = 0; i < nodes.getLength(); i++) {
             Element e = (Element) nodes.item(i);
+            String tipo = e.getAttribute("tipo");
+            String ownerNick = e.getElementsByTagName("nickOwner").item(0).getTextContent();
+
+            Usuario owner = usuarios.stream()
+                    .filter(u -> u.getNick().equals(ownerNick))
+                    .findFirst().orElse(null);
+            if (owner == null) continue;
+
             String nombre = e.getElementsByTagName("nombre").item(0).getTextContent();
-            int atq = Integer.parseInt(e.getElementsByTagName("ataque").item(0).getTextContent());
-            int def = Integer.parseInt(e.getElementsByTagName("defensa").item(0).getTextContent());
-            int rabiaMin = Integer.parseInt(e.getElementsByTagName("rabiaMin").item(0).getTextContent());
-            dones.add(new Don(nombre, atq, def, rabiaMin));
-        }
-    }
+            int salud = Integer.parseInt(e.getElementsByTagName("salud").item(0).getTextContent());
+            int poder = Integer.parseInt(e.getElementsByTagName("poder").item(0).getTextContent());
+            int oro = Integer.parseInt(e.getElementsByTagName("oro").item(0).getTextContent());
 
-    public static void saveDones(String path) throws Exception {
-        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-        Element root = doc.createElement("gifts");
-        doc.appendChild(root);
-        for (Don d : dones) {
-            Element ed = doc.createElement("don");
-            Element n = doc.createElement("nombre");
-            n.setTextContent(d.getNombre());
-            ed.appendChild(n);
-            Element a = doc.createElement("ataque");
-            a.setTextContent("" + d.getAtaque());
-            ed.appendChild(a);
-            Element df = doc.createElement("defensa");
-            df.setTextContent("" + d.getDefensa());
-            ed.appendChild(df);
-            Element r = doc.createElement("rabiaMin");
-            r.setTextContent("" + d.getRabiaMinima());
-            ed.appendChild(r);
-            root.appendChild(ed);
-        }
-        Transformer t = TransformerFactory.newInstance().newTransformer();
-        t.setOutputProperty(OutputKeys.INDENT, "yes");
-        t.transform(new DOMSource(doc), new StreamResult(new File(path)));
-    }
+            Personaje p = null;
+            switch (tipo.toLowerCase()) {
+                case "vampiro": {
+                    int edad = Integer.parseInt(e.getElementsByTagName("edad").item(0).getTextContent());
+                    int sangre = Integer.parseInt(e.getElementsByTagName("sangre").item(0).getTextContent());
+                    Vampiro v = new Vampiro(nombre, salud, poder, oro, edad);
+                    v.setSangre(sangre);
+                    p = v;
+                    break;
 
-    public static void loadTalentos(String path) throws Exception {
-        talentos.clear();
-        File f = new File(path);
-        if (!f.exists()) return;
-        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(f);
-        NodeList nodes = doc.getElementsByTagName("talento");
-        for (int i = 0; i < nodes.getLength(); i++) {
-            Element e = (Element) nodes.item(i);
-            String nombre = e.getElementsByTagName("nombre").item(0).getTextContent();
-            int atq = Integer.parseInt(e.getElementsByTagName("ataque").item(0).getTextContent());
-            int def = Integer.parseInt(e.getElementsByTagName("defensa").item(0).getTextContent());
-            talentos.add(new Talento(nombre, atq, def));
+                    if (p != null) {
+                        personajes.add(p);
+                        owner.addPersonaje(p);
+                    }
+                }
+                Transformer t = TransformerFactory.newInstance().newTransformer();
+                t.setOutputProperty(OutputKeys.INDENT, "yes");
+                t.transform(new DOMSource(doc), new StreamResult(new File(path)));
+            }
         }
-    }
-
-    public static void saveTalentos(String path) throws Exception {
-        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-        Element root = doc.createElement("talents");
-        doc.appendChild(root);
-        for (Talento tlt : talentos) {
-            Element et = doc.createElement("talento");
-            Element n = doc.createElement("nombre");
-            n.setTextContent(tlt.getNombre());
-            et.appendChild(n);
-            Element a = doc.createElement("ataque");
-            a.setTextContent("" + tlt.getAtaque());
-            et.appendChild(a);
-            Element df = doc.createElement("defensa");
-            df.setTextContent("" + tlt.getDefensa());
-            et.appendChild(df);
-            root.appendChild(et);
-        }
-        Transformer t = TransformerFactory.newInstance().newTransformer();
-        t.setOutputProperty(OutputKeys.INDENT, "yes");
-        t.transform(new DOMSource(doc), new StreamResult(new File(path)));
     }
 }

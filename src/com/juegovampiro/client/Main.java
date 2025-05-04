@@ -155,17 +155,11 @@ public class Main {
     }
 
     private static void crearPersonaje() throws Exception {
-        System.out.print("Tipo (1=V,2=L,3=C): ");
-        int t = readInt();
-        System.out.print("Nombre: ");
-        String n = sc.nextLine().trim();
-        System.out.print("Salud (0–5): ");
-        int s = readInt();
-        System.out.print("Poder (1–5): ");
-        int p = readInt();
-        System.out.print("Oro inicial: ");
-        int o = readInt();
-
+        System.out.print("Tipo (1=V,2=L,3=C): "); int t = readInt();
+        System.out.print("Nombre: ");                 String n = sc.nextLine().trim();
+        System.out.print("Salud (0–5): ");            int s = readInt();
+        System.out.print("Poder (1–5): ");            int p = readInt();
+        System.out.print("Oro inicial: ");            int o = readInt();
 
         Personaje per;
         switch (t) {

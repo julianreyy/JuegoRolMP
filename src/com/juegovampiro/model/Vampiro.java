@@ -10,7 +10,7 @@ public class Vampiro extends Personaje {
 
     public Vampiro(String nombre, int salud, int poder, int oro, int edad,Disciplina disciplina) {
         super(nombre, salud, poder, oro);
-        this.disciplina = disciplina;
+        this.disciplina = null;
         setEdad(edad);
         this.sangre = 0;
     }
@@ -35,10 +35,13 @@ public class Vampiro extends Personaje {
         this.edad = edad;
     }
 
-    public Disciplina getDisciplina() {
+    public Disciplina getDisciplinas() {
         return disciplina;
     }
 
+    public void addDisciplina(Disciplina d) {
+        this.disciplina = d;
+    }
 
     @Override
     public int calcularPdAt(){
