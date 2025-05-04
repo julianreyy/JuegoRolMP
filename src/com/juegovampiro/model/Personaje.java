@@ -10,6 +10,7 @@ public abstract class Personaje {
     private int oro;            // >=0
     private List<Arma> armas;               // todas las armas que posee
     private List<Arma> armasActivas;        // 1 o 2 armas activas según manos
+    private List<Armadura> armaduras;
     private Armadura armaduraActiva;        // una sola
     private List<Esbirro> esbirros;// todos los esbirros (indefinidos)
     private int saludEsbirros ;
@@ -23,6 +24,7 @@ public abstract class Personaje {
         setOro(oro);
 
         this.armas = new ArrayList<>();
+        this.armaduras = new ArrayList<>();
         this.armasActivas = new ArrayList<>();
         this.esbirros = new ArrayList<>();
         this.debilidades = new ArrayList<>();
@@ -78,6 +80,10 @@ public abstract class Personaje {
         return armas;
     }
 
+    public List<Armadura> getArmaduras() {
+        return armaduras;
+    }
+
     public List<Arma> getArmasActivas() {
         return armasActivas;
     }
@@ -105,6 +111,10 @@ public abstract class Personaje {
     // Métodos de conveniencia
     public void addArma(Arma a) {
         armas.add(a);
+    }
+
+    public void addArmadura(Arma a) {
+        armaduras.add(a);
     }
 
     /**

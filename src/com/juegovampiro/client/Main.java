@@ -34,14 +34,14 @@ public class Main {
             } else if (currentUser instanceof Operador) {
                 showOperatorMenu();
                 switch (readInt()) {
-                    case 1 -> OperatorManager.registerOperador();
-                    case 2 -> OperatorManager.darBajaUsuario();
-                    case 3 -> OperatorManager.editarPersonaje();
-                    case 4 -> OperatorManager.anyadirAlPersonaje();
-                    case 5 -> OperatorManager.validarDesafio();
-                    case 6 -> OperatorManager.blockUser();
-                    case 7 -> OperatorManager.unblockUser();
-                    case 8 -> logout();
+                    //case 1 -> OperatorManager.registerOperador();
+                    case 1 -> darBajaUsuario();
+                    case 2 -> editarPersonaje();
+                    case 3 -> addAlPersonaje();
+                    case 4 -> validarDesafio();
+                    case 5 -> blockUser();
+                    case 6 -> unblockUser();
+                    case 7 -> logout();
                     default -> System.out.println("Opción inválida.");
                 }
             } else {
@@ -55,6 +55,8 @@ public class Main {
                     case 6 -> verHistorialCombates();
                     case 7 -> verRankingGlobal();
                     case 8 -> logout();
+                    case 9 -> borrarPersonaje();
+                    case 10 -> borrarUsuario();
                     default -> System.out.println("Opción inválida.");
             }
             }
@@ -82,48 +84,57 @@ public class Main {
         System.out.println("6. Ver historial de combates");
         System.out.println("7. Ver ranking global");
         System.out.println("8. Cerrar sesión");
+        System.out.println("9. Borrar personaje");
+        System.out.println("10. Borrar usuario");
         System.out.print("> ");
     }
 
     private static void showOperatorMenu() {
         System.out.printf("\n--- Menú OPERADOR [%s] ---\n", currentUser.getNick());
-        System.out.println("1. Alta Operador");
-        System.out.println("2. Baja Usuario/Operador");
-        System.out.println("3. Editar Personaje");
-        System.out.println("4. Añadir Equipo/Fort/Dev/Esb");
-        System.out.println("5. Validar Desafío");
-        System.out.println("6. Bloquear Usuario");
-        System.out.println("7. Desbloquear Usuario");
-        System.out.println("8. Promover Usuario a Operador");
-        System.out.println("9. Degradar Operador a Cliente");
-        System.out.println("10. Cerrar sesión");
+        System.out.println("1. Baja Usuario/Operador");
+        System.out.println("2. Editar Personaje");
+        System.out.println("3. Añadir Equipo/Fort/Dev/Esb");
+        System.out.println("4. Validar Desafío");
+        System.out.println("5. Bloquear Usuario");
+        System.out.println("6. Desbloquear Usuario");
+        System.out.println("7. Cerrar sesión");
         System.out.print("> ");
     }
 
     // ───────────── INVITADO ─────────────
 
     private static void registerUser() throws Exception {
-        //System.out.print("Tipo de usuario: 1. Operador, 2. Cliente");   int tipo = sc.nextInt();
+        System.out.print("Tipo de usuario: 1. Operador, 2. Cliente");   int tipo = sc.nextInt();
         System.out.print("Nombre: ");   String nombre = sc.nextLine().trim();
         System.out.print("Nick: ");     String nick   = sc.nextLine().trim();
         System.out.print("Password: "); String pwd    = sc.nextLine().trim();
 
-        // Generar registro único LNNLL usando variable final en la lambda
-        String reg;
-        while (true) {
-            String candidate = randomRegistro();
-            boolean exists = XMLManager.usuarios.stream()
-                    .anyMatch(u -> candidate.equals(u.getRegistro()));
-            if (!exists) {
-                reg = candidate;
-                break;
+        if (tipo == 1) {
+            // Generar registro único LNNLL usando variable final en la lambda
+            String reg;
+            while (true) {
+                String candidate = randomRegistro();
+                boolean exists = XMLManager.usuarios.stream()
+                        .anyMatch(u -> candidate.equals(u.getRegistro()));
+                if (!exists) {
+                    reg = candidate;
+                    break;
+                }
             }
-        }
 
-        Usuario u = new Usuario(tipo, nombre, nick, pwd, reg);
-        XMLManager.usuarios.add(u);
-        XMLManager.saveAll("data/");
-        System.out.println("Registrado. Tu código: " + reg);
+            Usuario u = new Usuario(nombre, nick, pwd, reg);
+            XMLManager.usuarios.add(u);
+            XMLManager.saveAll("data/");
+            System.out.println("Registrado. Tu código: " + reg);
+        }
+        else if (tipo == 2){
+            Usuario u = new Operador(nombre, nick, pwd);
+            XMLManager.usuarios.add(u);
+            XMLManager.saveAll("data/");
+        }
+        else {
+            System.out.print("No ha sido posible especificar tipo de usuario");
+        }
     }
 
     private static void login() throws Exception {
@@ -166,7 +177,13 @@ public class Main {
                 int e = readInt();
                 per = new Vampiro(n, s, p, o, e);
             }
-            case 2 -> per = new Licantropo(n, s, p, o);
+            case 2 -> {
+                System.out.print("Peso: ");
+                int w = readInt();
+                System.out.print("Altura: ");
+                int a = readInt();
+                per = new Licantropo(n, s, p, o, w, a);
+            }
             case 3 -> per = new Cazador(n, s, p, o);
             default -> {
                 System.out.println("Tipo inválido.");
@@ -343,6 +360,35 @@ public class Main {
             System.out.printf("%d) %s – Oro: %d\n", i+1, p.getNombre(), p.getOro());
         }
     }
+
+    private static void borrarPersonaje() {
+    }
+
+    private static void borrarUsuario() {
+    }
+
+    // ───────────── OPERADOR ─────────────
+    private static void registerOperador() {
+    }
+
+    private static void darBajaUsuario() {
+    }
+
+    private static void editarPersonaje() {
+    }
+
+    private static void addAlPersonaje() {
+    }
+
+    private static void validarDesafio() {
+    }
+
+    private static void blockUser() {
+    }
+
+    private static void unblockUser() {
+    }
+
 
     // ─────────────── UTIL ────────────────
 
