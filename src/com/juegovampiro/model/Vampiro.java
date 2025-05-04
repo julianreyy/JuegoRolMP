@@ -35,7 +35,7 @@ public class Vampiro extends Personaje {
         this.edad = edad;
     }
 
-    public Disciplina getDisciplinas() {
+    public Disciplina getDisciplina() {
         return disciplina;
     }
 
