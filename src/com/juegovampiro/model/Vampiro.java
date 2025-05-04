@@ -44,6 +44,40 @@ public class Vampiro extends Personaje {
     }
 
     @Override
+    public int calcularPdAt(){
+        int p ;
+        int disclipinaAttack = 0;
+        int extraAttack = 0;
+        if(this.sangre >= disclipina.getCostoSangre()){
+            disclipinaAttack = disclipina.getAtaque();
+        }
+        if (this.sangre >= 5){
+            extraAttack= 2;
+        }
+        p = this.getPoder()+ disclipinaAttack+this.getArmasActivas().stream().mapToInt(a -> a.getModAtaque()).sum()+this.getArmaduraActiva().getModAtaque()+extraAttack;//falta modificar los talentos a que sea 1 talento
+        if(this.sangre >= disclipina.getCostoSangre()){
+            this.sangre -= disclipina.getCostoSangre();
+        }
+        return p;
+    }
+    public int calcularPdAt(){
+        int p ;
+        int disclipinaDefensa = 0;
+        int extraDefensa = 0;
+        if(this.sangre >= disclipina.getCostoSangre()){
+            disclipinaDefensa = disclipina.getDefensa();
+        }
+        if (this.sangre >= 5){
+            extraAttack= 2;
+        }
+        p = this.getPoder()+ disclipinaDefensa+this.getArmasActivas().stream().mapToInt(a -> a.getModDefensa()).sum()+this.getArmaduraActiva().getModDefensa()+extraDefensa;//falta modificar los talentos a que sea 1 talento
+        if(this.sangre >= disclipina.getCostoSangre()){
+            this.sangre -= disclipina.getCostoSangre();
+        }
+        return p;
+    }
+
+    @Override
     public String toString() {
         return super.toString() + String.format(" [Vampiro, Edad=%d, Sangre=%d]", edad, sangre);
     }

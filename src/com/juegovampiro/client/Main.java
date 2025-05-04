@@ -174,6 +174,7 @@ public class Main {
             }
         }
         addEsbirros(per, null);
+        // falta añadir fortalezas y debilidades , Talento,
 
 
 

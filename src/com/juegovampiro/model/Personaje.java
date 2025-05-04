@@ -145,6 +145,12 @@ public abstract class Personaje {
         fortalezas.add(f);
     }
 
+    public int calcularPdAt(){
+        return 0;
+    } // hay que mirarlo
+    public int calcularPdDf(){
+        return 0;
+    }// hay que mirarlo
     @Override
     public String toString() {
         return String.format("%s [Salud=%d, Poder=%d, Oro=%d]", nombre, salud, poder, oro);

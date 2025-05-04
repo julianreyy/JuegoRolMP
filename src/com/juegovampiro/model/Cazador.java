@@ -33,6 +33,21 @@ public class Cazador extends Personaje {
     }
 
     @Override
+    public int calcularPdAt(){
+        int p ;
+        p = this.getPoder()+ talento.getAtaque()+this.getArmasActivas().stream().mapToInt(a -> a.getModAtaque()).sum()+this.getArmaduraActiva().getModAtaque()+this.voluntad;//falta modificar los talentos a que sea 1 talento
+        return p;
+    }
+    @Override
+    public int calcularPdDf(){
+        int df;
+        df =  this.getPoder()+ talento.getDefensa()+this.getArmasActivas().stream().mapToInt(a -> a.getModDefensa()).sum()+this.getArmaduraActiva().getModDefensa()+this.voluntad;
+        return df;
+    }
+
+    p
+
+    @Override
     public String toString() {
         return super.toString() + String.format(" [Cazador, Voluntad=%d]", voluntad);
     }
