@@ -14,7 +14,7 @@ public class Main {
     private static final Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) throws Exception {
-        XMLManager.loadAll("src/com/juegovampiro/data/");
+        XMLManager.loadAll("data/");
         boolean running = true;
         while (running) {
             if (currentUser == null) {
@@ -25,7 +25,7 @@ public class Main {
                     case 3 -> running = false;
                     case 4 -> {
                         clearDataFiles();
-                        XMLManager.loadAll("src/com/juegovampiro/data/");
+                        XMLManager.loadAll("data/");
                     }
                     default -> System.out.println("Opción inválida.");
                 }
@@ -60,7 +60,7 @@ public class Main {
             }
             }
         }
-        XMLManager.saveAll("src/com/juegovampiro/data/");
+        XMLManager.saveAll("data/");
         System.out.println("¡Hasta luego!");
     }
 
@@ -123,13 +123,13 @@ public class Main {
 
             Usuario u = new Usuario(nombre, nick, pwd, reg);
             XMLManager.usuarios.add(u);
-            XMLManager.saveUsers("src/com/juegovampiro/data/");
+            XMLManager.saveAll("data/");
             System.out.println("Registrado. Tu código: " + reg);
         }
         else if (tipo == 2){
             Usuario u = new Operador(nombre, nick, pwd);
             XMLManager.usuarios.add(u);
-            XMLManager.saveUsers("src/com/juegovampiro/data/");
+            XMLManager.saveAll("data/");
         }
         else {
             System.out.print("No ha sido posible especificar tipo de usuario");
@@ -401,7 +401,7 @@ public class Main {
             }
             default -> System.out.println("Opción inválida.");
         }
-        XMLManager.saveCharacters("src/com/juegovampiro/data/");
+        XMLManager.saveCharacters("data/");
     }
 
     private static void desafiarUsuario() throws Exception {
@@ -445,7 +445,7 @@ public class Main {
             DesafioManager.rechazarDesafio(d);
             System.out.println("Desafío rechazado (pagaste 10%).");
         }
-        XMLManager.saveAll("src/com/juegovampiro/data/");
+        XMLManager.saveAll("data/");
     }
 
     private static void verHistorialCombates() {
@@ -489,7 +489,7 @@ public class Main {
         Personaje eliminado = lst.remove(idx);
         // Si mantenías también una lista global de personajes:
         personajes.remove(eliminado);
-        XMLManager.saveAll("src/com/juegovampiro/data/");
+        XMLManager.saveAll("data/");
         System.out.println("Personaje \"" + eliminado.getNombre() + "\" borrado.");
     }
 
@@ -506,7 +506,7 @@ public class Main {
         }
         // Borramos al usuario
         XMLManager.usuarios.remove(currentUser);
-        XMLManager.saveAll("src/com/juegovampiro/data/");
+        XMLManager.saveAll("data/");
         System.out.println("Tu usuario \"" + currentUser.getNick() + "\" ha sido borrado.");
         currentUser = null;
     }
@@ -523,7 +523,7 @@ public class Main {
             return;
         }
         XMLManager.usuarios.remove(u);
-        XMLManager.saveAll("src/com/juegovampiro/data/");
+        XMLManager.saveAll("data/");
         System.out.println("Usuario/Operador dado de baja.");
     }
 
@@ -579,7 +579,7 @@ public class Main {
             }
         }
 
-        XMLManager.saveAll("src/com/juegovampiro/data/");
+        XMLManager.saveAll("data/");
         System.out.println("Personaje modificado.");
     }
 
@@ -677,7 +677,7 @@ public class Main {
             }
         }
 
-        XMLManager.saveAll("src/com/juegovampiro/data/");
+        XMLManager.saveAll("data/");
         System.out.println("Añadido con éxito.");
     }
 
@@ -720,7 +720,7 @@ public class Main {
 
         // Marcar como VALIDADO si tuvieras ese estado, aquí lo dejamos PENDIENTE
         System.out.println("Validación completa. (estado sigue PENDIENTE)");
-        XMLManager.saveAll("src/com/juegovampiro/data/");
+        XMLManager.saveAll("data/");
     }
 
 
@@ -735,7 +735,7 @@ public class Main {
             return;
         }
         u.setBloqueado(true);
-        XMLManager.saveAll("src/com/juegovampiro/data/");
+        XMLManager.saveAll("data/");
         System.out.println("Usuario bloqueado.");
     }
 
@@ -751,7 +751,7 @@ public class Main {
             return;
         }
         u.setBloqueado(false);
-        XMLManager.saveAll("src/com/juegovampiro/data/");
+        XMLManager.saveAll("data/");
         System.out.println("Usuario desbloqueado.");
     }
 
@@ -777,14 +777,14 @@ public class Main {
     }
 
     private static void clearDataFiles() {
-        File dataDir = new File("src/com/juegovampiro/data"); //????
+        File dataDir = new File("data");
         if (!dataDir.exists() || !dataDir.isDirectory()) {
-            System.out.println("Directorio src/com/juegovampiro/data/ no encontrado.");
+            System.out.println("Directorio data/ no encontrado.");
             return;
         }
         File[] xmlFiles = dataDir.listFiles((dir,name)->name.toLowerCase().endsWith(".xml"));
         if (xmlFiles == null || xmlFiles.length == 0) {
-            System.out.println("No hay ficheros XML para borrar en src/com/juegovampiro/data/.");
+            System.out.println("No hay ficheros XML para borrar en data/.");
             return;
         }
         int deleted = 0;
@@ -792,6 +792,6 @@ public class Main {
             if (f.delete()) deleted++;
             System.err.println("No se pudo borrar: " + f.getName());
         }
-        System.out.printf("Borrados %d ficheros XML de src/com/juegovampiro/data/.\n", deleted);
+        System.out.printf("Borrados %d ficheros XML de data/.\n", deleted);
     }
 }
