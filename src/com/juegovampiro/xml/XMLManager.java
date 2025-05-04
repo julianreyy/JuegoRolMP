@@ -169,7 +169,7 @@ public class XMLManager {
     public static void loadCharacters(String path) throws Exception {
         personajes.clear();
         File f = new File(path);
-        if (f.exists()) {
+        if (!f.exists()) {
             System.out.println("Aviso: no existe " + path + ", se creará al guardar.");
             return;
         }
@@ -208,7 +208,7 @@ public class XMLManager {
                 case "licantropo": {
                     int peso = Integer.parseInt(e.getElementsByTagName("peso").item(0).getTextContent());
                     int altura = Integer.parseInt(e.getElementsByTagName("altura").item(0).getTextContent());
-                    String nombreDon =  e.getElementsByTagName("disciplina").item(0).getTextContent();
+                    String nombreDon =  e.getElementsByTagName("don").item(0).getTextContent();
                     int t = getDonNum(nombreDon);
                     Don don = dones.get(t);
                     Licantropo l = new Licantropo(nombre, salud, poder, oro, peso, altura, don);
@@ -228,7 +228,6 @@ public class XMLManager {
                     break;
                 }
             }
-            System.out.println(p.getNombre());
             if (p != null) {
                 personajes.add(p);
                 owner.addPersonaje(p);
@@ -551,7 +550,7 @@ public class XMLManager {
     public static void loadDisciplinas(String path) throws Exception {
         disciplinas.clear();
         File f = new File(path);
-        if (f.exists()) return;
+        if (!f.exists()) return;
         Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(f);
         NodeList nodes = doc.getElementsByTagName("disciplina");
         for (int i = 0; i < nodes.getLength(); i++) {
@@ -592,7 +591,7 @@ public class XMLManager {
     public static void loadDones(String path) throws Exception {
         dones.clear();
         File f = new File(path);
-        if (f.exists()) return; //if (!f.exists()) return; VERSION ANTERIOR
+        if (!f.exists()) return; //if (!f.exists()) return; VERSION ANTERIOR
         Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(f);
         NodeList nodes = doc.getElementsByTagName("don");
         for (int i = 0; i < nodes.getLength(); i++) {
@@ -633,7 +632,7 @@ public class XMLManager {
     public static void loadTalentos(String path) throws Exception {
         talentos.clear();
         File f = new File(path);
-        if (f.exists()) return;
+        if (!f.exists()) return;
         Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(f);
         NodeList nodes = doc.getElementsByTagName("talento");
         for (int i = 0; i < nodes.getLength(); i++) {

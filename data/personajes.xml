@@ -16,6 +16,9 @@
         <salud>5</salud>
         <poder>5</poder>
         <oro>100</oro>
+        <peso>87</peso>
+        <altura>178</altura>
+        <don>peloGrueso</don>
         <rabia>0</rabia>
     </personaje>
 </personajes>
