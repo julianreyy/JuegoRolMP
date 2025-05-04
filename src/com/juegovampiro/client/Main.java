@@ -5,10 +5,7 @@ import com.juegovampiro.xml.XMLManager;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     private static Usuario currentUser = null;
@@ -175,24 +172,50 @@ public class Main {
             case 1 -> {
                 System.out.print("Edad: ");
                 int e = readInt();
-                per = new Vampiro(n, s, p, o, e);
+                int i = 0;
+                System.out.println("Elija Disciplina");
+                for (Disciplina disciplina :XMLManager.disciplinas){
+                    System.out.printf(i+":"+ disciplina.getNombre());
+                    i++;
+                }
+                int dis = readInt();
+                Disciplina d = XMLManager.disciplinas.get(dis);
+
+                per = new Vampiro(n, s, p, o, e,d);
             }
             case 2 -> {
                 System.out.print("Peso: ");
                 int w = readInt();
                 System.out.print("Altura: ");
                 int a = readInt();
-                per = new Licantropo(n, s, p, o, w, a);
+                int i = 0;
+                System.out.println("Elija don");
+                for (Don don :XMLManager.dones){
+                    System.out.printf(i+":"+ don.getNombre());
+                    i++;
+                }
+                int don = readInt();
+                Don d = XMLManager.dones.get(don);
+                per = new Licantropo(n, s, p, o, w, a,d);
             }
-            case 3 -> per = new Cazador(n, s, p, o);
+            case 3 -> {
+                int i = 0;
+                System.out.println("Elija Talento");
+                for (Talento talento :XMLManager.talentos){
+                    System.out.printf(i+":"+ talento.getNombre());
+                    i++;
+                }
+                int ta = readInt();
+                Talento talent = XMLManager.talentos.get(ta);
+                per = new Cazador(n, s, p, o,talent);
+            }
             default -> {
                 System.out.println("Tipo inválido.");
                 return;
             }
         }
         addEsbirros(per, null);
-        // falta añadir fortalezas y debilidades , Talento,
-
+        addModificadores(per);
 
 
         currentUser.addPersonaje(per);
@@ -262,6 +285,39 @@ public class Main {
             }
         }
         } while (!stop);
+    }
+    private static void  addModificadores (Personaje per){
+        List<Debilidad> debilidades = new ArrayList<>();
+        List<Fortaleza> fortalezas = new ArrayList<>();
+        for(Modificador modificador: XMLManager.modificadores){
+            if(modificador instanceof Debilidad){debilidades.add((Debilidad) modificador);}
+            else {fortalezas.add((Fortaleza) modificador);}
+        }
+        int deb = -1;
+        do{
+            System.out.println("elija debilidad o ponga -1 si no quiere mas");
+            int i = 0;
+            for(Debilidad debilidad: debilidades){
+                System.out.printf(i+":"+debilidad.getNombre()+"valor:"+debilidad.getValor()+"/n");
+                i++;
+            }
+            deb = readInt() ;
+            per.addDebilidad(debilidades.get(deb));
+        }while (deb > -1);
+
+        int fort = -1;
+        do{
+            System.out.println("elija fortaleza o ponga -1 si no quiere mas");
+            int i = 0;
+            for(Fortaleza fortaleza: fortalezas){
+                System.out.printf(i+":"+fortaleza.getNombre()+"valor:"+fortaleza.getValor()+"/n");
+                i++;
+            }
+            fort = readInt() ;
+            per.addFortaleza(fortalezas.get(fort));
+
+        }while (fort >-1);
+
     }
 
     private static void listarPersonajes() {

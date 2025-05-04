@@ -6,11 +6,11 @@ import java.util.List;
 public class Vampiro extends Personaje {
     private int sangre;   // 0..10
     private int edad;     // edad en años
-    private List<Disciplina> disciplinas;
+    private Disciplina disciplina;
 
-    public Vampiro(String nombre, int salud, int poder, int oro, int edad) {
+    public Vampiro(String nombre, int salud, int poder, int oro, int edad,Disciplina disciplina) {
         super(nombre, salud, poder, oro);
-        this.disciplinas = new ArrayList<>();
+        this.disciplina = disciplina;
         setEdad(edad);
         this.sangre = 0;
     }
@@ -35,44 +35,41 @@ public class Vampiro extends Personaje {
         this.edad = edad;
     }
 
-    public List<Disciplina> getDisciplinas() {
-        return disciplinas;
+    public Disciplina getDisciplina() {
+        return disciplina;
     }
 
-    public void addDisciplina(Disciplina d) {
-        disciplinas.add(d);
-    }
 
     @Override
     public int calcularPdAt(){
         int p ;
         int disclipinaAttack = 0;
         int extraAttack = 0;
-        if(this.sangre >= disclipina.getCostoSangre()){
-            disclipinaAttack = disclipina.getAtaque();
+        if(this.sangre >= disciplina.getCostoSangre()){
+            disclipinaAttack = disciplina.getAtaque();
         }
         if (this.sangre >= 5){
             extraAttack= 2;
         }
         p = this.getPoder()+ disclipinaAttack+this.getArmasActivas().stream().mapToInt(a -> a.getModAtaque()).sum()+this.getArmaduraActiva().getModAtaque()+extraAttack;//falta modificar los talentos a que sea 1 talento
-        if(this.sangre >= disclipina.getCostoSangre()){
-            this.sangre -= disclipina.getCostoSangre();
+        if(this.sangre >= disciplina.getCostoSangre()){
+            this.sangre -= disciplina.getCostoSangre();
         }
         return p;
     }
-    public int calcularPdAt(){
+    public int calcularPdDf(){
         int p ;
         int disclipinaDefensa = 0;
         int extraDefensa = 0;
-        if(this.sangre >= disclipina.getCostoSangre()){
-            disclipinaDefensa = disclipina.getDefensa();
+        if(this.sangre >= disciplina.getCostoSangre()){
+            disclipinaDefensa = disciplina.getDefensa();
         }
         if (this.sangre >= 5){
-            extraAttack= 2;
+            extraDefensa= 2;
         }
         p = this.getPoder()+ disclipinaDefensa+this.getArmasActivas().stream().mapToInt(a -> a.getModDefensa()).sum()+this.getArmaduraActiva().getModDefensa()+extraDefensa;//falta modificar los talentos a que sea 1 talento
-        if(this.sangre >= disclipina.getCostoSangre()){
-            this.sangre -= disclipina.getCostoSangre();
+        if(this.sangre >= disciplina.getCostoSangre()){
+            this.sangre -= disciplina.getCostoSangre();
         }
         return p;
     }

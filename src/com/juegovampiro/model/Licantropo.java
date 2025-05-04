@@ -5,15 +5,15 @@ import java.util.List;
 
 public class Licantropo extends Personaje {
     private int rabia;  // 0..3
-    private List<Don> dones;
+    private Don don;
     private boolean isHuman;
     private int peso;
     private int altura;
 
-    public Licantropo(String nombre, int salud, int poder, int oro, int peso, int altura) {
+    public Licantropo(String nombre, int salud, int poder, int oro, int peso, int altura, Don don) {
         super(nombre, salud, poder, oro);
         this.rabia = 0;
-        this.dones = new ArrayList<>();
+        this.don = don;
         this.isHuman = true;
         this.peso = peso;
         this.altura = altura;
@@ -54,12 +54,8 @@ public class Licantropo extends Personaje {
         this.rabia = rabia;
     }
 
-    public List<Don> getDones() {
-        return dones;
-    }
-
-    public void addDon(Don d) {
-        dones.add(d);
+    public Don getDon() {
+        return don;
     }
 
     @Override
@@ -80,7 +76,7 @@ public class Licantropo extends Personaje {
         int p ;
         int donDefense = 0;
         if(this.rabia >= don.getRabiaMinima()){
-            donAttack = don.getDefensa();
+            donDefense= don.getDefensa();
         }
         p = this.getPoder()+ donDefense+this.getArmasActivas().stream().mapToInt(a -> a.getModDefensa()).sum()+this.getArmaduraActiva().getModDefensa()+this.rabia; //falta modificar los talentos a que sea 1 talento
         if(this.rabia >= don.getRabiaMinima()){

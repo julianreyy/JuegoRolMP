@@ -6,12 +6,12 @@ import java.util.List;
 
 public class Cazador extends Personaje {
     private int voluntad;  // 0..3
-    private List<Talento> talentos;
+    private Talento talento;
 
-    public Cazador(String nombre, int salud, int poder, int oro) {
+    public Cazador(String nombre, int salud, int poder, int oro, Talento talento) {
         super(nombre, salud, poder, oro);
         this.voluntad = 3;
-        this.talentos = new ArrayList<>();
+        this.talento = talento;
     }
 
     public int getVoluntad() {
@@ -24,13 +24,10 @@ public class Cazador extends Personaje {
         this.voluntad = voluntad;
     }
 
-    public List<Talento> getTalentos() {
-        return talentos;
+    public Talento getTalento() {
+        return talento;
     }
 
-    public void addTalento(Talento t) {
-        talentos.add(t);
-    }
 
     @Override
     public int calcularPdAt(){
@@ -44,8 +41,6 @@ public class Cazador extends Personaje {
         df =  this.getPoder()+ talento.getDefensa()+this.getArmasActivas().stream().mapToInt(a -> a.getModDefensa()).sum()+this.getArmaduraActiva().getModDefensa()+this.voluntad;
         return df;
     }
-
-    p
 
     @Override
     public String toString() {
