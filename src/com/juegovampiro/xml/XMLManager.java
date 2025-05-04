@@ -16,7 +16,6 @@ public class XMLManager {
 
     // — Listas en memoria —
     public static List<Usuario> usuarios = new ArrayList<>();
-    public static List<Personaje> personajes = new ArrayList<>();
     public static List<Arma> armas = new ArrayList<>();
     public static List<Armadura> armaduras = new ArrayList<>();
     public static List<Debilidad> debilidades = new ArrayList<>();
@@ -27,13 +26,13 @@ public class XMLManager {
     public static List<Desafio> desafios = new ArrayList<>();
     public static List<Combate> combates = new ArrayList<>();
     public static List<Modificador> modificadores = new ArrayList<>();
+    public static List<Personaje> personajes = new ArrayList<>();
 
     /**
      * Carga **todos** los ficheros XML desde dataDir
      */
     public static void loadAll(String dataDir) throws Exception {
         loadUsers(dataDir + "users.xml");
-        loadCharacters(dataDir + "characters.xml");
         loadArmas(dataDir + "weapons.xml");
         loadArmaduras(dataDir + "armors.xml");
         loadModificadores(dataDir + "modifiers.xml");
@@ -42,6 +41,7 @@ public class XMLManager {
         loadTalentos(dataDir + "talents.xml");
         loadDesafios(dataDir + "desafios.xml");
         loadCombates(dataDir + "combates.xml");
+        loadCharacters(dataDir + "characters.xml");
     }
 
     /**
@@ -200,9 +200,7 @@ public class XMLManager {
                     int sangre = Integer.parseInt(e.getElementsByTagName("sangre").item(0).getTextContent());
                     // Leemos la disciplina por nombre
                     String discName = e.getElementsByTagName("disciplina").item(0).getTextContent();
-                    Disciplina disc = disciplinas.stream()
-                            .filter(d -> d.getNombre().equals(discName))
-                            .findFirst().orElseThrow(() -> new IllegalArgumentException("Disciplina '" + discName + "' no existe"));
+                    Disciplina disc = disciplinas.stream().filter(d -> d.getNombre().equals(discName)).findFirst().orElse(null);
                     Vampiro v = new Vampiro(nombre, salud, poder, oro, edad, disc);
                     v.setSangre(sangre);
                     p = v;
@@ -214,7 +212,7 @@ public class XMLManager {
                     String donName = e.getElementsByTagName("don").item(0).getTextContent();
                     Don don = dones.stream()
                             .filter(dn -> dn.getNombre().equals(donName))
-                            .findFirst().orElseThrow(() -> new IllegalArgumentException("Don '" + donName + "' no existe"));
+                            .findFirst().orElse(null);
                     Licantropo l = new Licantropo(nombre, salud, poder, oro, peso, altura, don);
                     int rabia = Integer.parseInt(e.getElementsByTagName("rabia").item(0).getTextContent());
                     l.setRabia(rabia);
@@ -225,7 +223,7 @@ public class XMLManager {
                     String talName = e.getElementsByTagName("talento").item(0).getTextContent();
                     Talento tal = talentos.stream()
                             .filter(t -> t.getNombre().equals(talName))
-                            .findFirst().orElseThrow(() -> new IllegalArgumentException("Talento '" + talName + "' no existe"));
+                            .findFirst().orElse(null);
                     Cazador c = new Cazador(nombre, salud, poder, oro, tal);
                     int voluntad = Integer.parseInt(e.getElementsByTagName("voluntad").item(0).getTextContent());
                     c.setVoluntad(voluntad);

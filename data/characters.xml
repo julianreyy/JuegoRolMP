@@ -8,6 +8,7 @@
         <oro>100</oro>
         <edad>55</edad>
         <sangre>0</sangre>
+        <disciplina>sangre</disciplina>
     </personaje>
     <personaje tipo="licantropo">
         <nickOwner>jjjj</nickOwner>
