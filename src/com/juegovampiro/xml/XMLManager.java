@@ -51,12 +51,12 @@ public class XMLManager {
         new File(dataDir).mkdirs();
         saveUsers(dataDir + "users.xml");
         saveCharacters(dataDir + "personajes.xml");
-        saveArmas(dataDir + "weapons.xml");
-        saveArmaduras(dataDir + "armors.xml");
+        saveArmas(dataDir + "armas.xml");
+        saveArmaduras(dataDir + "armaduras.xml");
         saveModificadores(dataDir + "modifiers.xml");
-        saveDisciplinas(dataDir + "disciplines.xml");
-        saveDones(dataDir + "gifts.xml");
-        saveTalentos(dataDir + "talents.xml");
+        saveDisciplinas(dataDir + "disciplinas.xml");
+        saveDones(dataDir + "dones.xml");
+        saveTalentos(dataDir + "talentos.xml");
         saveDesafios(dataDir + "desafios.xml");
         saveCombates(dataDir + "combates.xml");
     }
@@ -301,16 +301,31 @@ public class XMLManager {
                     Element eSang = doc.createElement("sangre");
                     eSang.setTextContent(String.valueOf(v.getSangre()));
                     pe.appendChild(eSang);
+                    Element eDisciplina = doc.createElement("disciplina");
+                    eDisciplina.setTextContent(String.valueOf(v.getDisciplina()));
+                    pe.appendChild(eDisciplina);
                 } else if (p instanceof Licantropo) {
                     Licantropo l = (Licantropo) p;
                     Element eRabia = doc.createElement("rabia");
                     eRabia.setTextContent(String.valueOf(l.getRabia()));
                     pe.appendChild(eRabia);
+                    Element eDon = doc.createElement("don");
+                    eDon.setTextContent(String.valueOf(l.getDon()));
+                    pe.appendChild(eDon);
+                    Element ePeso = doc.createElement("peso");
+                    ePeso.setTextContent(String.valueOf(l.getPeso()));
+                    pe.appendChild(ePeso);
+                    Element eAltura = doc.createElement("altura");
+                    eAltura.setTextContent(String.valueOf(l.getAltura()));
+                    pe.appendChild(eAltura);
                 } else if (p instanceof Cazador) {
                     Cazador c = (Cazador) p;
                     Element eVol = doc.createElement("voluntad");
                     eVol.setTextContent(String.valueOf(c.getVoluntad()));
                     pe.appendChild(eVol);
+                    Element eTalento = doc.createElement("talento");
+                    eTalento.setTextContent(String.valueOf(c.getTalento()));
+                    pe.appendChild(eTalento);
                 }
 
                 root.appendChild(pe);

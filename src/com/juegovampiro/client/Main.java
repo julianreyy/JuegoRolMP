@@ -373,8 +373,13 @@ public class Main {
         Personaje otro = theirs.get(readInt()-1);
 
         System.out.print("Apuesta: "); int ap = readInt();
-        DesafioManager.lanzarDesafio(currentUser, mio, dn, otro.getNombre(), ap);
-        System.out.println("Desafío lanzado.");
+        boolean okay = DesafioManager.lanzarDesafio(currentUser, mio, dn, otro.getNombre(), ap);
+        if (okay) {
+            System.out.println("Desafío lanzado.");
+        } else {
+            System.out.println("Desafío cancelado.");
+        }
+
     }
 
     private static void gestionarDesafios() throws Exception {

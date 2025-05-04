@@ -6,6 +6,11 @@
         <salud>5</salud>
         <poder>5</poder>
         <oro>100</oro>
+        <armas>[]</armas>
+        <armaActiva>[]</armaActiva>
+        <armaduraActiva>null</armaduraActiva>
+        <debilidades>[]</debilidades>
+        <fortalezas>[]</fortalezas>
         <edad>55</edad>
         <sangre>0</sangre>
         <disciplina>sangreDura</disciplina>
@@ -16,9 +21,14 @@
         <salud>5</salud>
         <poder>5</poder>
         <oro>100</oro>
+        <armas>[]</armas>
+        <armaActiva>[]</armaActiva>
+        <armaduraActiva>null</armaduraActiva>
+        <debilidades>[]</debilidades>
+        <fortalezas>[]</fortalezas>
         <peso>87</peso>
-        <altura>178</altura>
-        <don>peloGrueso</don>
+        <altura>179</altura>
         <rabia>0</rabia>
+        <don>peloGrueso</don>
     </personaje>
 </personajes>

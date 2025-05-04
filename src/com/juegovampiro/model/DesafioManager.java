@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 public class DesafioManager {
 
     /** Lanza un nuevo desafío. */
-    public static void lanzarDesafio(Usuario retUser,
+    public static boolean lanzarDesafio(Usuario retUser,
                                      Personaje retChar,
                                      String desafiadoNick,
                                      String desafiadoChar,
@@ -17,10 +17,16 @@ public class DesafioManager {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Usuario desafiado no existe"));
 
-        if (retChar.getOro() < apuesta || apuesta < 0)
-            throw new IllegalArgumentException("Apuesta inválida o fondos insuficientes");
-        if (retChar.getArmasActivas().isEmpty() || retChar.getArmaduraActiva() == null)
-            throw new IllegalStateException("Tu personaje no tiene equipo activo");
+        if (retChar.getOro() < apuesta || apuesta < 0) {
+            //throw new IllegalArgumentException("Apuesta inválida o fondos insuficientes");
+            System.out.println("Apuesta inválida o fondos insuficientes");
+            return false;
+        }
+        if (retChar.getArmasActivas().isEmpty() || retChar.getArmaduraActiva() == null) {
+            //throw new IllegalStateException("Tu personaje no tiene equipo activo");
+            System.out.println("Tu personaje no tiene equipo activo");
+            return false;
+        }
 
         Desafio d = new Desafio(
                 retUser.getNick(),
@@ -31,6 +37,7 @@ public class DesafioManager {
         );
         XMLManager.desafios.add(d);
         XMLManager.saveDesafios("data/desafios.xml");
+        return true;
     }
 
     /** Devuelve la lista de desafíos pendientes para el usuario conectado. */
