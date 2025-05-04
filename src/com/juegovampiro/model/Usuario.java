@@ -11,7 +11,7 @@ public class Usuario {
     private String password;
     private String registro;           // Formato LNNLL, p.ej. A12BC
     private boolean bloqueado;         // Nuevo campo
-    private List<Personaje> personajes;
+    private List<Personaje> misPersonajes;
 
     private static final Pattern REGISTRO_PATTERN =
             Pattern.compile("^[A-Za-z]\\d{2}[A-Za-z]{2}$");
@@ -22,7 +22,7 @@ public class Usuario {
         this.bloqueado = false;
         setPassword(password);
         setRegistro(registro);
-        this.personajes = new ArrayList<>();
+        this.misPersonajes = new ArrayList<>();
     }
 
     public boolean isBloqueado()     { return bloqueado; }
@@ -32,7 +32,7 @@ public class Usuario {
     public String getNick()          { return nick; }
     public String getPassword()      { return password; }
     public String getRegistro()      { return registro; }
-    public List<Personaje> getPersonajes() { return personajes; }
+    public List<Personaje> getPersonajes() { return misPersonajes; }
 
     public void setPassword(String password) {
         if (password == null || password.length() < 8 || password.length() > 12) {
@@ -52,14 +52,14 @@ public class Usuario {
     }
 
     public void addPersonaje(Personaje p) {
-        personajes.add(p);
+        misPersonajes.add(p);
     }
 
     @Override
     public String toString() {
         return String.format(
                 "Usuario[nombre=%s, nick=%s, registro=%s, bloqueado=%s, #chars=%d]",
-                nombre, nick, registro, bloqueado, personajes.size()
+                nombre, nick, registro, bloqueado, misPersonajes.size()
         );
     }
 }

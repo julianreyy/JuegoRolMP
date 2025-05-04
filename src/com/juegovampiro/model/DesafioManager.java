@@ -87,6 +87,6 @@ public class DesafioManager {
 
         d.setEstado(Desafio.Estado.RECHAZADO);
         XMLManager.saveDesafios("data/desafios.xml");
-        XMLManager.saveCharacters("data/characters.xml");
+        XMLManager.saveCharacters("data/personajes.xml");
     }
 }

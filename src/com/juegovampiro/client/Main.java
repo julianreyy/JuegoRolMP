@@ -145,6 +145,9 @@ public class Main {
         if (currentUser == null) {
             System.out.println("Credenciales inválidas.");
         } else {
+            /*for (Personaje p : XMLManager.personajes) {
+                if (currentUser)
+            }*/
             System.out.println("¡Bienvenido, " + currentUser.getNick() + "!");
         }
     }

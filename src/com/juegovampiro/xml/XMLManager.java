@@ -32,16 +32,16 @@ public class XMLManager {
      * Carga **todos** los ficheros XML desde dataDir
      */
     public static void loadAll(String dataDir) throws Exception {
+        loadDisciplinas(dataDir + "disciplinas.xml");
+        loadDones(dataDir + "dones.xml");
+        loadTalentos(dataDir + "talentos.xml");
         loadUsers(dataDir + "users.xml");
-        loadCharacters(dataDir + "characters.xml");
-        loadArmas(dataDir + "weapons.xml");
-        loadArmaduras(dataDir + "armors.xml");
+        loadArmas(dataDir + "armas.xml");
+        loadArmaduras(dataDir + "armaduras.xml");
         loadModificadores(dataDir + "modifiers.xml");
-        loadDisciplinas(dataDir + "disciplines.xml");
-        loadDones(dataDir + "gifts.xml");
-        loadTalentos(dataDir + "talents.xml");
         loadDesafios(dataDir + "desafios.xml");
         loadCombates(dataDir + "combates.xml");
+        loadCharacters(dataDir + "personajes.xml");
     }
 
     /**
@@ -50,7 +50,7 @@ public class XMLManager {
     public static void saveAll(String dataDir) throws Exception {
         new File(dataDir).mkdirs();
         saveUsers(dataDir + "users.xml");
-        saveCharacters(dataDir + "characters.xml");
+        saveCharacters(dataDir + "personajes.xml");
         saveArmas(dataDir + "weapons.xml");
         saveArmaduras(dataDir + "armors.xml");
         saveModificadores(dataDir + "modifiers.xml");
@@ -169,7 +169,7 @@ public class XMLManager {
     public static void loadCharacters(String path) throws Exception {
         personajes.clear();
         File f = new File(path);
-        if (!f.exists()) {
+        if (f.exists()) {
             System.out.println("Aviso: no existe " + path + ", se creará al guardar.");
             return;
         }
@@ -228,6 +228,7 @@ public class XMLManager {
                     break;
                 }
             }
+            System.out.println(p.getNombre());
             if (p != null) {
                 personajes.add(p);
                 owner.addPersonaje(p);
@@ -550,7 +551,7 @@ public class XMLManager {
     public static void loadDisciplinas(String path) throws Exception {
         disciplinas.clear();
         File f = new File(path);
-        if (!f.exists()) return;
+        if (f.exists()) return;
         Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(f);
         NodeList nodes = doc.getElementsByTagName("disciplina");
         for (int i = 0; i < nodes.getLength(); i++) {
@@ -591,7 +592,7 @@ public class XMLManager {
     public static void loadDones(String path) throws Exception {
         dones.clear();
         File f = new File(path);
-        if (!f.exists()) return;
+        if (f.exists()) return; //if (!f.exists()) return; VERSION ANTERIOR
         Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(f);
         NodeList nodes = doc.getElementsByTagName("don");
         for (int i = 0; i < nodes.getLength(); i++) {
@@ -632,7 +633,7 @@ public class XMLManager {
     public static void loadTalentos(String path) throws Exception {
         talentos.clear();
         File f = new File(path);
-        if (!f.exists()) return;
+        if (f.exists()) return;
         Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(f);
         NodeList nodes = doc.getElementsByTagName("talento");
         for (int i = 0; i < nodes.getLength(); i++) {
@@ -665,6 +666,9 @@ public class XMLManager {
         t.setOutputProperty(OutputKeys.INDENT, "yes");
         t.transform(new DOMSource(doc), new StreamResult(new File(path)));
     }
+
+
+
     private static int getDiscNum(String n){
         int k = 0;
         int numDisc = -1;
