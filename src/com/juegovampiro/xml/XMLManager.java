@@ -164,7 +164,6 @@ public class XMLManager {
         t.transform(new DOMSource(doc), new StreamResult(new File(path)));
     }
 
-
     // —— Personajes —————————————————————————————————————————
 
     public static void loadCharacters(String path) throws Exception {
@@ -566,7 +565,7 @@ public class XMLManager {
 
     public static void saveDisciplinas(String path) throws Exception {
         Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-        Element root = doc.createElement("disciplines");
+        Element root = doc.createElement("disciplinas");
         doc.appendChild(root);
         for (Disciplina d : disciplinas) {
             Element ed = doc.createElement("disciplina");
@@ -574,8 +573,7 @@ public class XMLManager {
             n.setTextContent(d.getNombre());
             ed.appendChild(n);
             Element a = doc.createElement("ataque");
-            n = doc.createElement("defensa");
-            n.setTextContent("" + d.getDefensa());
+            a.setTextContent("" + d.getAtaque());
             ed.appendChild(a);
             Element df = doc.createElement("defensa");
             df.setTextContent("" + d.getDefensa());
@@ -608,7 +606,7 @@ public class XMLManager {
 
     public static void saveDones(String path) throws Exception {
         Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-        Element root = doc.createElement("gifts");
+        Element root = doc.createElement("dones");
         doc.appendChild(root);
         for (Don d : dones) {
             Element ed = doc.createElement("don");
@@ -648,7 +646,7 @@ public class XMLManager {
 
     public static void saveTalentos(String path) throws Exception {
         Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-        Element root = doc.createElement("talents");
+        Element root = doc.createElement("talentos");
         doc.appendChild(root);
         for (Talento tlt : talentos) {
             Element et = doc.createElement("talento");

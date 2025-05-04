@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<talentos>
+    <talento>
+        <nombre>capaNegra</nombre>
+        <ataque>1</ataque>
+        <defensa>3</defensa>
+    </talento>
+    <talento>
+        <nombre>disparoFugaz</nombre>
+        <ataque>3</ataque>
+        <defensa>1</defensa>
+    </talento>
+</talentos>

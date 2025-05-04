@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dones>
+    <don>
+        <nombre>peloGrueso</nombre>
+        <ataque>1</ataque>
+        <defensa>3</defensa>
+        <rabiaMin>0</rabiaMin>
+    </don>
+    <don>
+        <nombre>zarpaFilo</nombre>
+        <ataque>3</ataque>
+        <defensa>1</defensa>
+        <rabiaMin>3</rabiaMin>
+    </don>
+</dones>
