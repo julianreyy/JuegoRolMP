@@ -7,6 +7,8 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static com.juegovampiro.xml.XMLManager.personajes;
+
 public class Main {
     private static Usuario currentUser = null;
     private static final Scanner sc = new Scanner(System.in);
@@ -409,7 +411,7 @@ public class Main {
     }
 
     private static void verRankingGlobal() {
-        List<Personaje> all = XMLManager.personajes;
+        List<Personaje> all = personajes;
         all.sort((a, b) -> b.getOro() - a.getOro());
         for (int i = 0; i < all.size(); i++) {
             Personaje p = all.get(i);
@@ -417,10 +419,45 @@ public class Main {
         }
     }
 
-    private static void borrarPersonaje() {
+    private static void borrarPersonaje() throws Exception {
+        List<Personaje> lst = currentUser.getPersonajes();
+        if (lst.isEmpty()) {
+            System.out.println("No tienes personajes para borrar.");
+            return;
+        }
+        System.out.println("¿Qué personaje quieres borrar?");
+        for (int i = 0; i < lst.size(); i++) {
+            System.out.printf("%d) %s\n", i+1, lst.get(i).getNombre());
+        }
+        System.out.print("> ");
+        int idx = readInt() - 1;
+        if (idx < 0 || idx >= lst.size()) {
+            System.out.println("Opción inválida.");
+            return;
+        }
+        Personaje eliminado = lst.remove(idx);
+        // Si mantenías también una lista global de personajes:
+        personajes.remove(eliminado);
+        XMLManager.saveAll("data/");
+        System.out.println("Personaje \"" + eliminado.getNombre() + "\" borrado.");
     }
 
-    private static void borrarUsuario() {
+    private static void borrarUsuario() throws Exception {
+        System.out.print("¿Estás seguro de que quieres borrar tu usuario? (s/N): ");
+        String resp = sc.nextLine().trim().toLowerCase();
+        if (!resp.equals("s") && !resp.equals("si")) {
+            System.out.println("Operación cancelada.");
+            return;
+        }
+        // Sacamos todos sus personajes de la lista global
+        for (Personaje p : currentUser.getPersonajes()) {
+            personajes.remove(p);
+        }
+        // Borramos al usuario
+        XMLManager.usuarios.remove(currentUser);
+        XMLManager.saveAll("data/");
+        System.out.println("Tu usuario \"" + currentUser.getNick() + "\" ha sido borrado.");
+        currentUser = null;
     }
 
     // ───────────── OPERADOR ─────────────
