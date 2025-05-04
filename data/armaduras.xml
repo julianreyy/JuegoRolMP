@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<armors>
+    <armadura>
+        <nombre>Casco</nombre>
+        <ataque>1</ataque>
+        <defensa>1</defensa>
+    </armadura>
+    <armadura>
+        <nombre>Casco Blindado</nombre>
+        <ataque>2</ataque>
+        <defensa>3</defensa>
+    </armadura>
+    <armadura>
+        <nombre>Casco de Hades</nombre>
+        <ataque>5</ataque>
+        <defensa>5</defensa>
+    </armadura>
+</armors>
