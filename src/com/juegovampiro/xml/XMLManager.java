@@ -111,7 +111,6 @@ public class XMLManager {
         t.transform(new DOMSource(doc), new StreamResult(new File(path)));
     }
 
-
     // —— Usuarios —————————————————————————————————————————
 
     public static void loadUsers(String path) throws Exception {
@@ -255,7 +254,7 @@ public class XMLManager {
                     String nombreArmadura = hojasArmaduras.item(0).getTextContent();
                     Armadura armadura = armaduras.get(getArmaduraNum(nombreArmadura));
                     p.addArmadura(armadura);
-                    numArmaduras++;
+                    //numArmaduras++;
                 }
 
                 String armaduraActiva = e.getElementsByTagName("armaduraActiva").item(0).getTextContent();
@@ -269,9 +268,9 @@ public class XMLManager {
     }
 
     public static void saveCharacters(String path) throws Exception {
+        //Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
         DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document doc = db.newDocument();
-
         Element root = doc.createElement("personajes");
         doc.appendChild(root);
 
@@ -417,7 +416,7 @@ public class XMLManager {
 
     public static void saveArmas(String path) throws Exception {
         Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-        Element root = doc.createElement("weapons");
+        Element root = doc.createElement("armas");
         doc.appendChild(root);
         for (Arma a : armas) {
             Element ea = doc.createElement("arma");
@@ -457,7 +456,7 @@ public class XMLManager {
 
     public static void saveArmaduras(String path) throws Exception {
         Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-        Element root = doc.createElement("armors");
+        Element root = doc.createElement("armaduras");
         doc.appendChild(root);
         for (Armadura a : armaduras) {
             Element ea = doc.createElement("armadura");

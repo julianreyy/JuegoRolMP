@@ -8,9 +8,9 @@ public class Vampiro extends Personaje {
     private int edad;     // edad en años
     private Disciplina disciplina;
 
-    public Vampiro(String nombre, int salud, int poder, int oro, int edad,Disciplina disciplina) {
+    public Vampiro(String nombre, int salud, int poder, int oro, int edad, Disciplina disciplina) {
         super(nombre, salud, poder, oro);
-        this.disciplina = null;
+        this.disciplina = disciplina;
         setEdad(edad);
         this.sangre = 0;
     }
