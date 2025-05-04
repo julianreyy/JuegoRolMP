@@ -233,8 +233,14 @@ public class XMLManager {
                 NodeList nodoArmas = e.getElementsByTagName("armas");
                 for (int contadorArmas = 0; contadorArmas < numArmas; contadorArmas++) {
                     String nombreArma = nodoArmas.item(contadorArmas).getTextContent();
-                    Arma arma = armas.get(getArmaNum(nombreArma));
-                    p.addArma(arma);
+                    int exists = getArmaNum(nombreArma);
+                    if (exists != -1) {
+                        Arma arma = armas.get(getArmaNum(nombreArma));
+                        p.addArma(arma);
+                    } else {
+                        Arma arma = null;
+                        p.addArma(arma);
+                    }
                     //numArmas++;
                 }
 
