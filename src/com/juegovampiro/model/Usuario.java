@@ -16,7 +16,7 @@ public class Usuario {
     private static final Pattern REGISTRO_PATTERN =
             Pattern.compile("^[A-Za-z]\\d{2}[A-Za-z]{2}$");
 
-    public Usuario(int tipo, String nombre, String nick, String password, String registro) {
+    public Usuario(String nombre, String nick, String password, String registro) {
         this.nombre    = nombre;
         this.nick      = nick;
         this.bloqueado = false;

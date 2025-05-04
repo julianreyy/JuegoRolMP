@@ -34,19 +34,21 @@ public class Main {
             } else if (currentUser instanceof Operador) {
                 showOperatorMenu();
                 switch (readInt()) {
-                    case 1 -> OperatorManager.registerOperador();
-                    case 2 -> OperatorManager.darBajaUsuario();
-                    case 3 -> OperatorManager.editarPersonaje();
-                    case 4 -> OperatorManager.anyadirAlPersonaje();
-                    case 5 -> OperatorManager.validarDesafio();
-                    case 6 -> OperatorManager.blockUser();
-                    case 7 -> OperatorManager.unblockUser();
+                    //case 1 -> OperatorManager.registerOperador();
+                    case 1 -> registerOperador(); //sobra
+                    case 2 -> darBajaUsuario();
+                    case 3 -> editarPersonaje();
+                    case 4 -> addAlPersonaje();
+                    case 5 -> validarDesafio();
+                    case 6 -> blockUser();
+                    case 7 -> unblockUser();
                     case 8 -> logout();
                     default -> System.out.println("Opción inválida.");
                 }
             } else {
                 showUserMenu();
                 switch (readInt()) {
+                    //añadir dar de baja usuario
                     case 1 -> crearPersonaje();
                     case 2 -> listarPersonajes();
                     case 3 -> equiparPersonaje();
@@ -103,27 +105,37 @@ public class Main {
     // ───────────── INVITADO ─────────────
 
     private static void registerUser() throws Exception {
-        //System.out.print("Tipo de usuario: 1. Operador, 2. Cliente");   int tipo = sc.nextInt();
+        System.out.print("Tipo de usuario: 1. Operador, 2. Cliente");   int tipo = sc.nextInt();
         System.out.print("Nombre: ");   String nombre = sc.nextLine().trim();
         System.out.print("Nick: ");     String nick   = sc.nextLine().trim();
         System.out.print("Password: "); String pwd    = sc.nextLine().trim();
 
-        // Generar registro único LNNLL usando variable final en la lambda
-        String reg;
-        while (true) {
-            String candidate = randomRegistro();
-            boolean exists = XMLManager.usuarios.stream()
-                    .anyMatch(u -> candidate.equals(u.getRegistro()));
-            if (!exists) {
-                reg = candidate;
-                break;
+        if (tipo == 1) {
+            // Generar registro único LNNLL usando variable final en la lambda
+            String reg;
+            while (true) {
+                String candidate = randomRegistro();
+                boolean exists = XMLManager.usuarios.stream()
+                        .anyMatch(u -> candidate.equals(u.getRegistro()));
+                if (!exists) {
+                    reg = candidate;
+                    break;
+                }
             }
-        }
 
-        Usuario u = new Usuario(tipo, nombre, nick, pwd, reg);
-        XMLManager.usuarios.add(u);
-        XMLManager.saveAll("data/");
-        System.out.println("Registrado. Tu código: " + reg);
+            Usuario u = new Usuario(nombre, nick, pwd, reg);
+            XMLManager.usuarios.add(u);
+            XMLManager.saveAll("data/");
+            System.out.println("Registrado. Tu código: " + reg);
+        }
+        else if (tipo == 2){
+            Usuario u = new Operador(nombre, nick, pwd);
+            XMLManager.usuarios.add(u);
+            XMLManager.saveAll("data/");
+        }
+        else {
+            System.out.print("No ha sido posible especificar tipo de usuario");
+        }
     }
 
     private static void login() throws Exception {
@@ -319,6 +331,29 @@ public class Main {
             System.out.printf("%d) %s – Oro: %d\n", i+1, p.getNombre(), p.getOro());
         }
     }
+
+    // ───────────── OPERADOR ─────────────
+    private static void registerOperador() {
+    }
+
+    private static void darBajaUsuario() {
+    }
+
+    private static void editarPersonaje() {
+    }
+
+    private static void addAlPersonaje() {
+    }
+
+    private static void validarDesafio() {
+    }
+
+    private static void blockUser() {
+    }
+
+    private static void unblockUser() {
+    }
+
 
     // ─────────────── UTIL ────────────────
 
