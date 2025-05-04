@@ -7,6 +7,8 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static com.juegovampiro.xml.XMLManager.personajes;
+
 public class Main {
     private static Usuario currentUser = null;
     private static final Scanner sc = new Scanner(System.in);
@@ -403,7 +405,7 @@ public class Main {
     }
 
     private static void verRankingGlobal() {
-        List<Personaje> all = XMLManager.personajes;
+        List<Personaje> all = personajes;
         all.sort((a, b) -> b.getOro() - a.getOro());
         for (int i = 0; i < all.size(); i++) {
             Personaje p = all.get(i);
@@ -411,32 +413,289 @@ public class Main {
         }
     }
 
-    private static void borrarPersonaje() {
+    private static void borrarPersonaje() throws Exception {
+        List<Personaje> lst = currentUser.getPersonajes();
+        if (lst.isEmpty()) {
+            System.out.println("No tienes personajes para borrar.");
+            return;
+        }
+        System.out.println("¿Qué personaje quieres borrar?");
+        for (int i = 0; i < lst.size(); i++) {
+            System.out.printf("%d) %s\n", i+1, lst.get(i).getNombre());
+        }
+        System.out.print("> ");
+        int idx = readInt() - 1;
+        if (idx < 0 || idx >= lst.size()) {
+            System.out.println("Opción inválida.");
+            return;
+        }
+        Personaje eliminado = lst.remove(idx);
+        // Si mantenías también una lista global de personajes:
+        personajes.remove(eliminado);
+        XMLManager.saveAll("data/");
+        System.out.println("Personaje \"" + eliminado.getNombre() + "\" borrado.");
     }
 
-    private static void borrarUsuario() {
+    private static void borrarUsuario() throws Exception {
+        System.out.print("¿Estás seguro de que quieres borrar tu usuario? (s/N): ");
+        String resp = sc.nextLine().trim().toLowerCase();
+        if (!resp.equals("s") && !resp.equals("si")) {
+            System.out.println("Operación cancelada.");
+            return;
+        }
+        // Sacamos todos sus personajes de la lista global
+        for (Personaje p : currentUser.getPersonajes()) {
+            personajes.remove(p);
+        }
+        // Borramos al usuario
+        XMLManager.usuarios.remove(currentUser);
+        XMLManager.saveAll("data/");
+        System.out.println("Tu usuario \"" + currentUser.getNick() + "\" ha sido borrado.");
+        currentUser = null;
     }
 
     // ───────────── OPERADOR ─────────────
-    private static void registerOperador() {
+    private static void darBajaUsuario() throws Exception {
+        System.out.print("Nick a dar de baja: ");
+        String nick = sc.nextLine().trim();
+        Usuario u = XMLManager.usuarios.stream()
+                .filter(x -> x.getNick().equals(nick))
+                .findFirst().orElse(null);
+        if (u == null) {
+            System.out.println("No existe usuario con ese nick.");
+            return;
+        }
+        XMLManager.usuarios.remove(u);
+        XMLManager.saveAll("data/");
+        System.out.println("Usuario/Operador dado de baja.");
     }
 
-    private static void darBajaUsuario() {
+
+    private static void editarPersonaje() throws Exception {
+        System.out.print("Nick del dueño: ");
+        String ownerNick = sc.nextLine().trim();
+        Usuario owner = XMLManager.usuarios.stream()
+                .filter(u -> u.getNick().equals(ownerNick))
+                .findFirst().orElse(null);
+        if (owner == null) {
+            System.out.println("Usuario no encontrado.");
+            return;
+        }
+        List<Personaje> ps = owner.getPersonajes();
+        if (ps.isEmpty()) {
+            System.out.println("Este usuario no tiene personajes.");
+            return;
+        }
+        for (int i = 0; i < ps.size(); i++) {
+            System.out.printf("%d) %s\n", i+1, ps.get(i));
+        }
+        System.out.print("Elige personaje (nº): ");
+        Personaje p = ps.get(readInt()-1);
+
+        System.out.println("¿Qué quieres modificar?");
+        System.out.println("1=Nombre  2=Salud  3=Poder  4=Oro  5=Campo específico");
+        System.out.print("> ");
+        int campo = readInt();
+        System.out.print("Nuevo valor: ");
+        String val = sc.nextLine().trim();
+
+        switch (campo) {
+            case 1 -> p.setNombre(val);
+            case 2 -> p.setSalud(Integer.parseInt(val));
+            case 3 -> p.setPoder(Integer.parseInt(val));
+            case 4 -> p.setOro(Integer.parseInt(val));
+            case 5 -> {
+                if (p instanceof Vampiro) {
+                    ((Vampiro)p).setEdad(Integer.parseInt(val));
+                } else if (p instanceof Licantropo) {
+                    ((Licantropo)p).setRabia(Integer.parseInt(val));
+                } else if (p instanceof Cazador) {
+                    ((Cazador)p).setVoluntad(Integer.parseInt(val));
+                } else {
+                    System.out.println("Tipo de personaje sin campo específico.");
+                    return;
+                }
+            }
+            default -> {
+                System.out.println("Opción inválida.");
+                return;
+            }
+        }
+
+        XMLManager.saveAll("data/");
+        System.out.println("Personaje modificado.");
     }
 
-    private static void editarPersonaje() {
+
+    private static void addAlPersonaje() throws Exception {
+        System.out.print("Nick del dueño: ");
+        String ownerNick = sc.nextLine().trim();
+        Usuario owner = XMLManager.usuarios.stream()
+                .filter(u -> u.getNick().equals(ownerNick))
+                .findFirst().orElse(null);
+        if (owner == null) {
+            System.out.println("Usuario no encontrado.");
+            return;
+        }
+        List<Personaje> ps = owner.getPersonajes();
+        if (ps.isEmpty()) {
+            System.out.println("Este usuario no tiene personajes.");
+            return;
+        }
+        for (int i = 0; i < ps.size(); i++) {
+            System.out.printf("%d) %s\n", i+1, ps.get(i));
+        }
+        System.out.print("Elige personaje (nº): ");
+        Personaje p = ps.get(readInt()-1);
+
+        System.out.println("¿Qué añadir?");
+        System.out.println("1=Arma  2=Armadura  3=Fortaleza  4=Debilidad  " +
+                "5=Humano  6=Ghoul  7=Demonio");
+        System.out.print("> ");
+        switch (readInt()) {
+            case 1 -> {
+                System.out.print("Nombre arma: ");
+                String n = sc.nextLine();
+                System.out.print("ModAtaque: ");
+                int ma = readInt();
+                System.out.print("ModDefensa: ");
+                int md = readInt();
+                System.out.print("Manos(1|2): ");
+                int m  = readInt();
+                p.addArma(new Arma(n, ma, md, m));
+            }
+            case 2 -> {
+                System.out.print("Nombre armadura: ");
+                String n2 = sc.nextLine();
+                System.out.print("ModAtaque: ");
+                int ma2 = readInt();
+                System.out.print("ModDefensa: ");
+                int md2 = readInt();
+                p.setArmaduraActiva(new Armadura(n2, ma2, md2));
+            }
+            case 3 -> {
+                System.out.print("Nombre fortaleza: ");
+                String fn = sc.nextLine();
+                System.out.print("Valor(1–5): ");
+                int fv = readInt();
+                p.addFortaleza(new Fortaleza(fn, fv));
+            }
+            case 4 -> {
+                System.out.print("Nombre debilidad: ");
+                String dn = sc.nextLine();
+                System.out.print("Valor(1–5): ");
+                int dv = readInt();
+                p.addDebilidad(new Debilidad(dn, dv));
+            }
+            case 5 -> {
+                System.out.print("Nombre humano: ");
+                String hn = sc.nextLine();
+                System.out.print("Salud(1–3): ");
+                int hs = readInt();
+                System.out.print("Lealtad(ALTA,NORMAL,BAJA): ");
+                Humano.Lealtad l = Humano.Lealtad.valueOf(sc.nextLine());
+                p.addEsbirro(new Humano(hn, hs, l));
+            }
+            case 6 -> {
+                System.out.print("Nombre ghoul: ");
+                String gn = sc.nextLine();
+                System.out.print("Salud(1–3): ");
+                int gs = readInt();
+                System.out.print("Dependencia(1–5): ");
+                int gd = readInt();
+                p.addEsbirro(new Ghoul(gn, gs, gd));
+            }
+            case 7 -> {
+                System.out.print("Nombre demonio: ");
+                String dn2 = sc.nextLine();
+                System.out.print("Salud(1–3): ");
+                int ds = readInt();
+                System.out.print("Pacto: ");
+                String pact = sc.nextLine();
+                p.addEsbirro(new Demonio(dn2, ds, pact));
+            }
+            default -> {
+                System.out.println("Opción inválida.");
+                return;
+            }
+        }
+
+        XMLManager.saveAll("data/");
+        System.out.println("Añadido con éxito.");
     }
 
-    private static void addAlPersonaje() {
+
+    private static void validarDesafio() throws Exception {
+        List<Desafio> pend = new ArrayList<>();
+        for (Desafio d : XMLManager.desafios) {
+            if (d.getEstado() == Desafio.Estado.PENDIENTE) {
+                pend.add(d);
+            }
+        }
+        if (pend.isEmpty()) {
+            System.out.println("No hay desafíos pendientes.");
+            return;
+        }
+        for (int i = 0; i < pend.size(); i++) {
+            System.out.printf("%d) %s\n", i+1, pend.get(i));
+        }
+        System.out.print("Elige desafío a validar (nº): ");
+        Desafio d = pend.get(readInt()-1);
+
+        // Mostrar fortalezas/debilidades de ambos personajes
+        Personaje r = XMLManager.usuarios.stream()
+                .filter(u -> u.getNick().equals(d.getRetadorNick()))
+                .findFirst().get()
+                .getPersonajes().stream()
+                .filter(p -> p.getNombre().equals(d.getRetadorChar()))
+                .findFirst().get();
+        Personaje s = XMLManager.usuarios.stream()
+                .filter(u -> u.getNick().equals(d.getDesafiadoNick()))
+                .findFirst().get()
+                .getPersonajes().stream()
+                .filter(p -> p.getNombre().equals(d.getDesafiadoChar()))
+                .findFirst().get();
+
+        System.out.println("Fortalezas retador: "   + r.getFortalezas());
+        System.out.println("Debilidades retador: "  + r.getDebilidades());
+        System.out.println("Fortalezas desafiado: " + s.getFortalezas());
+        System.out.println("Debilidades desafiado:" + s.getDebilidades());
+
+        // Marcar como VALIDADO si tuvieras ese estado, aquí lo dejamos PENDIENTE
+        System.out.println("Validación completa. (estado sigue PENDIENTE)");
+        XMLManager.saveAll("data/");
     }
 
-    private static void validarDesafio() {
+
+    private static void blockUser() throws Exception {
+        System.out.print("Nick a bloquear: ");
+        String nick = sc.nextLine().trim();
+        Usuario u = XMLManager.usuarios.stream()
+                .filter(x -> x.getNick().equals(nick))
+                .findFirst().orElse(null);
+        if (u == null) {
+            System.out.println("Usuario no encontrado.");
+            return;
+        }
+        u.setBloqueado(true);
+        XMLManager.saveAll("data/");
+        System.out.println("Usuario bloqueado.");
     }
 
-    private static void blockUser() {
-    }
 
-    private static void unblockUser() {
+    private static void unblockUser() throws Exception {
+        System.out.print("Nick a desbloquear: ");
+        String nick = sc.nextLine().trim();
+        Usuario u = XMLManager.usuarios.stream()
+                .filter(x -> x.getNick().equals(nick))
+                .findFirst().orElse(null);
+        if (u == null) {
+            System.out.println("Usuario no encontrado.");
+            return;
+        }
+        u.setBloqueado(false);
+        XMLManager.saveAll("data/");
+        System.out.println("Usuario desbloqueado.");
     }
 
 
