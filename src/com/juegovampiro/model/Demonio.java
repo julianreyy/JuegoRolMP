@@ -12,7 +12,14 @@ public class Demonio extends Esbirro {
         this.pacto = pacto;
         this.esbirros = new ArrayList<>();
     }
-
+    @Override
+    public int getSalud(){
+        int saludfinal = super.getSalud();
+        for (Esbirro esbirro : esbirros) {
+            saludfinal += esbirro.getSalud();
+        }
+        return saludfinal;
+    }
     public String getPacto() {
         return pacto;
     }

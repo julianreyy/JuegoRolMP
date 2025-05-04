@@ -31,24 +31,35 @@ public class CombatManager {
         // Guarda salud original por si se quiere resetear después
         int saludOrigR = retador.getSalud();
         int saludOrigD = desafiado.getSalud();
+        int saludEsbirrosOrigR = retador.getSaludEsbirros();
+        int saludEsbirrosOrigD = desafiado.getSaludEsbirros();
 
         List<Ronda> rondas = new ArrayList<>();
         int round = 1;
-        while (retador.getSalud() > 0 && desafiado.getSalud() > 0) {
+        while (retador.getSalud() > 0 && desafiado.getSalud() > 0 ) {
             int danoD   = Math.max(0,
                     retador.getPoder()
                             + retador.getArmasActivas().stream().mapToInt(a -> a.getModAtaque()).sum()
                             - desafiado.getArmaduraActiva().getModDefensa()
             );
+            if(desafiado.getSaludEsbirros()> 0){
+                desafiado.setSaludEsbirros(desafiado.getSaludEsbirros()-danoD);
+            }
+            else{
             desafiado.setSalud(desafiado.getSalud() - danoD);
+            }
 
             int danoR   = Math.max(0,
                     desafiado.getPoder()
                             + desafiado.getArmasActivas().stream().mapToInt(a -> a.getModAtaque()).sum()
                             - retador.getArmaduraActiva().getModDefensa()
             );
-            retador.setSalud(retador.getSalud() - danoR);
-
+            if (retador.getSaludEsbirros() >0){
+                retador.setSaludEsbirros(retador.getSaludEsbirros()-danoR);
+            }
+            else {
+                retador.setSalud(retador.getSalud() - danoR);
+            }
             rondas.add(new Ronda(round++, danoR, danoD));
         }
 
@@ -81,6 +92,8 @@ public class CombatManager {
         // (Opcional) restaurar salud original para permitir reuso de objetos
         retador.setSalud(saludOrigR);
         desafiado.setSalud(saludOrigD);
+        retador.setSaludEsbirros(saludEsbirrosOrigR);
+        desafiado.setSaludEsbirros(saludEsbirrosOrigD);
 
         return c;
     }

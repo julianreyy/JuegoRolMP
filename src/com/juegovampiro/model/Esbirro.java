@@ -13,6 +13,7 @@ public abstract class Esbirro {
         return nombre;
     }
 
+
     public int getSalud() {
         return salud;
     }

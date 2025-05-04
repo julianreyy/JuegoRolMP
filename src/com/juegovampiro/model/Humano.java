@@ -18,6 +18,13 @@ public class Humano extends Esbirro {
     }
 
     @Override
+    public void addEsbirro(Esbirro e) {
+        if(e.getClass())
+        esbirros.add(e);
+        this.saludEsbirros=e.getSalud();
+    }
+
+    @Override
     public String toString() {
         return super.toString() + " [Lealtad=" + lealtad + "]";
     }

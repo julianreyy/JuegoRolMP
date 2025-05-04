@@ -147,16 +147,23 @@ public class Main {
     }
 
     private static void crearPersonaje() throws Exception {
-        System.out.print("Tipo (1=V,2=L,3=C): "); int t = readInt();
-        System.out.print("Nombre: ");                 String n = sc.nextLine().trim();
-        System.out.print("Salud (0–5): ");            int s = readInt();
-        System.out.print("Poder (1–5): ");            int p = readInt();
-        System.out.print("Oro inicial: ");            int o = readInt();
+        System.out.print("Tipo (1=V,2=L,3=C): ");
+        int t = readInt();
+        System.out.print("Nombre: ");
+        String n = sc.nextLine().trim();
+        System.out.print("Salud (0–5): ");
+        int s = readInt();
+        System.out.print("Poder (1–5): ");
+        int p = readInt();
+        System.out.print("Oro inicial: ");
+        int o = readInt();
+
 
         Personaje per;
         switch (t) {
             case 1 -> {
-                System.out.print("Edad: "); int e = readInt();
+                System.out.print("Edad: ");
+                int e = readInt();
                 per = new Vampiro(n, s, p, o, e);
             }
             case 2 -> per = new Licantropo(n, s, p, o);
@@ -166,9 +173,54 @@ public class Main {
                 return;
             }
         }
+
+        boolean stop=false;
+
+
+            addEsbirros(per);
+
+
+
         currentUser.addPersonaje(per);
         XMLManager.saveAll("data/");
         System.out.println("Personaje creado.");
+    }
+    private static void addEsbirros(Personaje per) {
+        Esbirro e;
+        int op;
+        boolean stop  = true;
+        do{
+        System.out.print("Tipo (1=D,2=G 3=H 4:no aniadir): ");
+        op = readInt();
+        String name = null;
+        int h = 0;
+
+        if (op > 0 && op < 4) {
+            System.out.println("Nombre");
+            name = sc.nextLine().trim();
+            System.out.println("Salud:");
+            h = readInt();
+        }
+
+        switch (op) {
+            case 1 -> {
+                System.out.println("Nombre Pacto:");
+                String pacto = sc.nextLine().trim();
+                e = new Demonio(name, h, pacto);
+                System.out.println("1:aniadir esbirros del demonio , 2=no aniadir");
+                int a = readInt();
+                if (a == 1) {
+                    ((Demonio) e).addEsbirro(addEsbirros(per));
+                }
+                per.addEsbirro(e);
+            }
+            case 2 -> {
+                System.out.println("Dependencia(1-5):");
+                int d = readInt();
+                e = new Ghoul(name, h, d);
+            }
+        }
+        } while (!stop);
     }
 
     private static void listarPersonajes() {
@@ -181,6 +233,7 @@ public class Main {
             System.out.printf("%d) %s\n", i+1, lst.get(i));
         }
     }
+
 
     private static void equiparPersonaje() throws Exception {
         List<Personaje> lst = currentUser.getPersonajes();

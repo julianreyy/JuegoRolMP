@@ -11,7 +11,8 @@ public abstract class Personaje {
     private List<Arma> armas;               // todas las armas que posee
     private List<Arma> armasActivas;        // 1 o 2 armas activas según manos
     private Armadura armaduraActiva;        // una sola
-    private List<Esbirro> esbirros;         // todos los esbirros (indefinidos)
+    private List<Esbirro> esbirros;// todos los esbirros (indefinidos)
+    private int saludEsbirros ;
     private List<Debilidad> debilidades;
     private List<Fortaleza> fortalezas;
 
@@ -26,6 +27,7 @@ public abstract class Personaje {
         this.esbirros = new ArrayList<>();
         this.debilidades = new ArrayList<>();
         this.fortalezas = new ArrayList<>();
+        this.saludEsbirros=0;
     }
 
     // Getters y setters con validación
@@ -38,14 +40,20 @@ public abstract class Personaje {
     }
 
     public int getSalud() {
+
         return salud;
     }
-
     public void setSalud(int salud) {
         if (salud < 0) salud = 0;
         if (salud > 5) salud = 5;
         this.salud = salud;
     }
+
+    public int getSaludEsbirros(){return saludEsbirros;}
+    public void setSaludEsbirros(int s){
+        saludEsbirros =s;
+    }
+
 
     public int getPoder() {
         return poder;
@@ -124,7 +132,9 @@ public abstract class Personaje {
     }
 
     public void addEsbirro(Esbirro e) {
+
         esbirros.add(e);
+        this.saludEsbirros=e.getSalud();
     }
 
     public void addDebilidad(Debilidad d) {
