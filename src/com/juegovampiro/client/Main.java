@@ -191,11 +191,7 @@ public class Main {
                 return;
             }
         }
-
-        boolean stop=false;
-
-
-            addEsbirros(per);
+        addEsbirros(per, null);
 
 
 
@@ -203,10 +199,11 @@ public class Main {
         XMLManager.saveAll("data/");
         System.out.println("Personaje creado.");
     }
-    private static void addEsbirros(Personaje per) {
+
+    private static void addEsbirros(Personaje per , Demonio demonio ) {
         Esbirro e;
         int op;
-        boolean stop  = true;
+        boolean stop  = false;
         do{
         System.out.print("Tipo (1=D,2=G 3=H 4:no aniadir): ");
         op = readInt();
@@ -228,14 +225,40 @@ public class Main {
                 System.out.println("1:aniadir esbirros del demonio , 2=no aniadir");
                 int a = readInt();
                 if (a == 1) {
-                    ((Demonio) e).addEsbirro(addEsbirros(per));
+                    addEsbirros(per, (Demonio)e);
                 }
-                per.addEsbirro(e);
+                if(demonio !=null){
+                    demonio.addEsbirro(e);
+                }
+                else {
+                    per.addEsbirro(e);
+                }
             }
             case 2 -> {
-                System.out.println("Dependencia(1-5):");
-                int d = readInt();
+                System.out.println("Dependencia(1-5):");int d = readInt();
                 e = new Ghoul(name, h, d);
+                if(demonio !=null){
+                    demonio.addEsbirro(e);
+                }
+                else {
+                    per.addEsbirro(e);
+                }
+            }
+            case 3 -> {
+                System.out.println("Lealtad(ALTA, NORMAL, BAJA):");Humano.Lealtad l = Humano.Lealtad.valueOf(sc.nextLine().trim());
+                e = new Humano(name, h, l);
+                if(demonio !=null){
+                    demonio.addEsbirro(e);
+                }
+                else {
+                    per.addEsbirro(e);
+                }
+            }
+            case 4->{
+                stop = true;
+            }
+            default -> {
+                stop = true;
             }
         }
         } while (!stop);
@@ -336,12 +359,6 @@ public class Main {
             Personaje p = all.get(i);
             System.out.printf("%d) %s – Oro: %d\n", i+1, p.getNombre(), p.getOro());
         }
-    }
-
-    private static void borrarPersonaje() {
-    }
-
-    private static void borrarUsuario() {
     }
 
     // ───────────── OPERADOR ─────────────
