@@ -8,14 +8,14 @@
     </arma>
     <arma>
         <nombre>Espadorra</nombre>
-        <ataque>5</ataque>
+        <ataque>3</ataque>
         <defensa>3</defensa>
         <manos>1</manos>
     </arma>
     <arma>
         <nombre>MegaEspada</nombre>
-        <ataque>5</ataque>
-        <defensa>5</defensa>
-        <manos>5</manos>
+        <ataque>3</ataque>
+        <defensa>3</defensa>
+        <manos>2</manos>
     </arma>
 </weapons>

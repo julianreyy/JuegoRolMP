@@ -6,11 +6,10 @@
         <salud>5</salud>
         <poder>5</poder>
         <oro>100</oro>
-        <arma1>
-            <arma1>Espada</arma1>
-        </arma1>
-        <armaActiva1></armaActiva1>
-        <armaActiva2></armaActiva2>
+        <armas>
+            <arma1>Espadita</arma1>
+        </armas>
+        <armasActivas></armasActivas>
         <armaduraActiva></armaduraActiva>
         <debilidades></debilidades>
         <fortalezas></fortalezas>

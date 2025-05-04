@@ -231,30 +231,33 @@ public class XMLManager {
             if (p != null) {
 
                 int numArmas = e.getElementsByTagName("armas").getLength();
+                NodeList nodoArmas = e.getElementsByTagName("armas");
                 for (int contadorArmas = 0; contadorArmas < numArmas; contadorArmas++) {
-                    String armaX = e.getElementsByTagName("armas").item(contadorArmas).getTextContent(); //puede fallar
-                    // ya que no profundiza lo suficiente en el xml, le pregunta text al nodo "arma1" padre del texto que buscamos
-                    Arma arma = armas.get(getArmaNum(armaX));
+                    NodeList hojasArmas = (NodeList) nodoArmas.item(contadorArmas);
+                    String nombreArma = hojasArmas.item(0).getTextContent();
+                    Arma arma = armas.get(getArmaNum(nombreArma));
                     p.addArma(arma);
                     numArmas++;
                 }
 
                 int numArmasAct = e.getElementsByTagName("armasActivas").getLength();
+                NodeList nodoArmasAct = e.getElementsByTagName("armasActivas");
                 for (int contadorArmasA = 0; contadorArmasA < numArmasAct; contadorArmasA++) {
-                    String armaX = e.getElementsByTagName("armasActivas").item(contadorArmasA).getTextContent(); //puede fallar
-                    // ya que no profundiza lo suficiente en el xml, le pregunta text al nodo "arma1" padre del texto que buscamos
-                    Arma armaA = armas.get(getArmaNum(armaX));
-                    p.addArma(armaA);
+                    NodeList hojasArmasAct = (NodeList) nodoArmasAct.item(contadorArmasA);
+                    String nombreArmaAct = hojasArmasAct.item(0).getTextContent();
+                    Arma armaA = armas.get(getArmaNum(nombreArmaAct));
+                    p.activarArma(armaA);
                     numArmasAct++;
                 }
 
                 int numArmaduras = e.getElementsByTagName("armaduras").getLength();
-                for (int contadorArmaduras = 0; contadorArmaduras < numArmasAct; contadorArmaduras++) {
-                    String armaX = e.getElementsByTagName("armaduras").item(contadorArmaduras).getTextContent(); //puede fallar
-                    // ya que no profundiza lo suficiente en el xml, le pregunta text al nodo "arma1" padre del texto que buscamos
-                    Arma armaA = armaduras.get(getArmaNum(armaX));
-                    p.addArma(armaA);
-                    numArmasAct++;
+                NodeList nodoArmaduras = e.getElementsByTagName("armaduras");
+                for (int contadorArmaduras = 0; contadorArmaduras < numArmaduras; contadorArmaduras++) {
+                    NodeList hojasArmaduras = (NodeList) nodoArmas.item(contadorArmaduras);
+                    String nombreArmadura = hojasArmaduras.item(0).getTextContent();
+                    Armadura armadura = armaduras.get(getArmaduraNum(nombreArmadura));
+                    p.addArmadura(armadura);
+                    numArmaduras++;
                 }
 
                 String armaduraActiva = e.getElementsByTagName("armaduraActiva").item(0).getTextContent();

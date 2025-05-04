@@ -36,11 +36,9 @@ public abstract class Personaje {
     public String getNombre() {
         return nombre;
     }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
     public int getSalud() {
 
         return salud;
@@ -50,69 +48,53 @@ public abstract class Personaje {
         if (salud > 5) salud = 5;
         this.salud = salud;
     }
-
     public int getSaludEsbirros(){return saludEsbirros;}
     public void setSaludEsbirros(int s){
         saludEsbirros =s;
     }
-
-
     public int getPoder() {
         return poder;
     }
-
     public void setPoder(int poder) {
         if (poder < 1) poder = 1;
         if (poder > 5) poder = 5;
         this.poder = poder;
     }
-
     public int getOro() {
         return oro;
     }
-
     public void setOro(int oro) {
         if (oro < 0) oro = 0;
         this.oro = oro;
     }
-
     public List<Arma> getArmas() {
         return armas;
     }
-
     public List<Armadura> getArmaduras() {
         return armaduras;
     }
-
     public List<Arma> getArmasActivas() {
         return armasActivas;
     }
-
     public Armadura getArmaduraActiva() {
         return armaduraActiva;
     }
-
     public void setArmaduraActiva(Armadura armaduraActiva) {
         this.armaduraActiva = armaduraActiva;
     }
-
     public List<Esbirro> getEsbirros() {
         return esbirros;
     }
-
     public List<Debilidad> getDebilidades() {
         return debilidades;
     }
-
     public List<Fortaleza> getFortalezas() {
         return fortalezas;
     }
-
     // Métodos de conveniencia
     public void addArma(Arma a) {
       armas.add(a);
     }
-
     public void addArmadura(Armadura a) {
         armaduras.add(a);
     }
