@@ -35,20 +35,18 @@ public class Main {
                 showOperatorMenu();
                 switch (readInt()) {
                     //case 1 -> OperatorManager.registerOperador();
-                    case 1 -> registerOperador(); //sobra
-                    case 2 -> darBajaUsuario();
-                    case 3 -> editarPersonaje();
-                    case 4 -> addAlPersonaje();
-                    case 5 -> validarDesafio();
-                    case 6 -> blockUser();
-                    case 7 -> unblockUser();
-                    case 8 -> logout();
+                    case 1 -> darBajaUsuario();
+                    case 2 -> editarPersonaje();
+                    case 3 -> addAlPersonaje();
+                    case 4 -> validarDesafio();
+                    case 5 -> blockUser();
+                    case 6 -> unblockUser();
+                    case 7 -> logout();
                     default -> System.out.println("Opción inválida.");
                 }
             } else {
                 showUserMenu();
                 switch (readInt()) {
-                    //añadir dar de baja usuario
                     case 1 -> crearPersonaje();
                     case 2 -> listarPersonajes();
                     case 3 -> equiparPersonaje();
@@ -57,6 +55,8 @@ public class Main {
                     case 6 -> verHistorialCombates();
                     case 7 -> verRankingGlobal();
                     case 8 -> logout();
+                    case 9 -> borrarPersonaje();
+                    case 10 -> borrarUsuario();
                     default -> System.out.println("Opción inválida.");
             }
             }
@@ -178,7 +178,13 @@ public class Main {
                 int e = readInt();
                 per = new Vampiro(n, s, p, o, e);
             }
-            case 2 -> per = new Licantropo(n, s, p, o);
+            case 2 -> {
+                System.out.print("Peso: ");
+                int w = readInt();
+                System.out.print("Altura: ");
+                int a = readInt();
+                per = new Licantropo(n, s, p, o, w, a);
+            }
             case 3 -> per = new Cazador(n, s, p, o);
             default -> {
                 System.out.println("Tipo inválido.");
@@ -330,6 +336,12 @@ public class Main {
             Personaje p = all.get(i);
             System.out.printf("%d) %s – Oro: %d\n", i+1, p.getNombre(), p.getOro());
         }
+    }
+
+    private static void borrarPersonaje() {
+    }
+
+    private static void borrarUsuario() {
     }
 
     // ───────────── OPERADOR ─────────────
