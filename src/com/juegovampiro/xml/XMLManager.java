@@ -180,7 +180,7 @@ public class XMLManager {
 
         for (int i = 0; i < nodes.getLength(); i++) {
             Element e = (Element) nodes.item(i);
-            String tipo = e.getAttribute("tipo");
+            String tipo      = e.getAttribute("tipo");
             String ownerNick = e.getElementsByTagName("nickOwner").item(0).getTextContent();
 
             Usuario owner = usuarios.stream()
@@ -189,21 +189,32 @@ public class XMLManager {
             if (owner == null) continue;
 
             String nombre = e.getElementsByTagName("nombre").item(0).getTextContent();
-            int salud = Integer.parseInt(e.getElementsByTagName("salud").item(0).getTextContent());
-            int poder = Integer.parseInt(e.getElementsByTagName("poder").item(0).getTextContent());
-            int oro = Integer.parseInt(e.getElementsByTagName("oro").item(0).getTextContent());
+            int salud      = Integer.parseInt(e.getElementsByTagName("salud").item(0).getTextContent());
+            int poder      = Integer.parseInt(e.getElementsByTagName("poder").item(0).getTextContent());
+            int oro        = Integer.parseInt(e.getElementsByTagName("oro").item(0).getTextContent());
 
             Personaje p = null;
             switch (tipo.toLowerCase()) {
                 case "vampiro": {
-                    int edad = Integer.parseInt(e.getElementsByTagName("edad").item(0).getTextContent());
+                    int edad   = Integer.parseInt(e.getElementsByTagName("edad").item(0).getTextContent());
                     int sangre = Integer.parseInt(e.getElementsByTagName("sangre").item(0).getTextContent());
-                    Vampiro v = new Vampiro(nombre, salud, poder, oro, edad, disciplina);
+                    // Leemos la disciplina por nombre
+                    String discName = e.getElementsByTagName("disciplina").item(0).getTextContent();
+                    Disciplina disc = disciplinas.stream()
+                            .filter(d -> d.getNombre().equals(discName))
+                            .findFirst().orElseThrow(() -> new IllegalArgumentException("Disciplina '" + discName + "' no existe"));
+                    Vampiro v = new Vampiro(nombre, salud, poder, oro, edad, disc);
                     v.setSangre(sangre);
                     p = v;
                     break;
                 }
                 case "licantropo": {
+                    int peso   = Integer.parseInt(e.getElementsByTagName("peso").item(0).getTextContent());
+                    int altura = Integer.parseInt(e.getElementsByTagName("altura").item(0).getTextContent());
+                    String donName = e.getElementsByTagName("don").item(0).getTextContent();
+                    Don don = dones.stream()
+                            .filter(dn -> dn.getNombre().equals(donName))
+                            .findFirst().orElseThrow(() -> new IllegalArgumentException("Don '" + donName + "' no existe"));
                     Licantropo l = new Licantropo(nombre, salud, poder, oro, peso, altura, don);
                     int rabia = Integer.parseInt(e.getElementsByTagName("rabia").item(0).getTextContent());
                     l.setRabia(rabia);
@@ -211,7 +222,11 @@ public class XMLManager {
                     break;
                 }
                 case "cazador": {
-                    Cazador c = new Cazador(nombre, salud, poder, oro, talento);
+                    String talName = e.getElementsByTagName("talento").item(0).getTextContent();
+                    Talento tal = talentos.stream()
+                            .filter(t -> t.getNombre().equals(talName))
+                            .findFirst().orElseThrow(() -> new IllegalArgumentException("Talento '" + talName + "' no existe"));
+                    Cazador c = new Cazador(nombre, salud, poder, oro, tal);
                     int voluntad = Integer.parseInt(e.getElementsByTagName("voluntad").item(0).getTextContent());
                     c.setVoluntad(voluntad);
                     p = c;
@@ -228,79 +243,74 @@ public class XMLManager {
     public static void saveCharacters(String path) throws Exception {
         DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document doc = db.newDocument();
-
         Element root = doc.createElement("personajes");
         doc.appendChild(root);
 
         for (Usuario u : usuarios) {
             for (Personaje p : u.getPersonajes()) {
                 Element pe = doc.createElement("personaje");
-                if (p instanceof Vampiro) {
-                    pe.setAttribute("tipo", "vampiro");
-                } else if (p instanceof Licantropo) {
-                    pe.setAttribute("tipo", "licantropo");
-                } else if (p instanceof Cazador) {
-                    pe.setAttribute("tipo", "cazador");
-                }
+                String tipo = p instanceof Vampiro ? "vampiro"
+                        : p instanceof Licantropo ? "licantropo"
+                        : "cazador";
+                pe.setAttribute("tipo", tipo);
 
+                // dueño
                 Element owner = doc.createElement("nickOwner");
                 owner.setTextContent(u.getNick());
                 pe.appendChild(owner);
 
+                // atributos genéricos
                 Element en = doc.createElement("nombre");
-                en.setTextContent(p.getNombre());
-                pe.appendChild(en);
-
+                en.setTextContent(p.getNombre());      pe.appendChild(en);
                 Element es = doc.createElement("salud");
-                es.setTextContent(String.valueOf(p.getSalud()));
-                pe.appendChild(es);
-
+                es.setTextContent("" + p.getSalud());  pe.appendChild(es);
                 Element ep = doc.createElement("poder");
-                ep.setTextContent(String.valueOf(p.getPoder()));
-                pe.appendChild(ep);
-
+                ep.setTextContent("" + p.getPoder());  pe.appendChild(ep);
                 Element eo = doc.createElement("oro");
-                eo.setTextContent(String.valueOf(p.getOro()));
-                pe.appendChild(eo);
+                eo.setTextContent("" + p.getOro());    pe.appendChild(eo);
 
+                // arma(s) y armadura
                 Element ar = doc.createElement("armas");
-                ar.setTextContent(String.valueOf(p.getArmas()));
-                pe.appendChild(ar);
-
-                Element ad = doc.createElement("armaActiva");
-                ad.setTextContent(String.valueOf(p.getArmasActivas()));
-                pe.appendChild(ad);
-
+                ar.setTextContent(p.getArmas().toString());          pe.appendChild(ar);
+                Element aa = doc.createElement("armaActiva");
+                aa.setTextContent(p.getArmasActivas().toString());   pe.appendChild(aa);
                 Element am = doc.createElement("armaduraActiva");
-                am.setTextContent(String.valueOf(p.getArmaduraActiva()));
-                pe.appendChild(am);
+                am.setTextContent(p.getArmaduraActiva().getNombre());pe.appendChild(am);
 
+                // debilidades / fortalezas
                 Element de = doc.createElement("debilidades");
-                de.setTextContent(String.valueOf(p.getDebilidades()));
-                pe.appendChild(de);
-
+                de.setTextContent(p.getDebilidades().toString());    pe.appendChild(de);
                 Element fo = doc.createElement("fortalezas");
-                fo.setTextContent(String.valueOf(p.getFortalezas()));
-                pe.appendChild(fo);
+                fo.setTextContent(p.getFortalezas().toString());     pe.appendChild(fo);
 
+                // campos por tipo
                 if (p instanceof Vampiro) {
-                    Vampiro v = (Vampiro) p;
+                    Vampiro v = (Vampiro)p;
                     Element eEdad = doc.createElement("edad");
-                    eEdad.setTextContent(String.valueOf(v.getEdad()));
-                    pe.appendChild(eEdad);
+                    eEdad.setTextContent("" + v.getEdad());        pe.appendChild(eEdad);
                     Element eSang = doc.createElement("sangre");
-                    eSang.setTextContent(String.valueOf(v.getSangre()));
-                    pe.appendChild(eSang);
-                } else if (p instanceof Licantropo) {
-                    Licantropo l = (Licantropo) p;
+                    eSang.setTextContent("" + v.getSangre());      pe.appendChild(eSang);
+                    Element edisc = doc.createElement("disciplina");
+                    edisc.setTextContent(v.getDisciplina().getNombre());
+                    pe.appendChild(edisc);
+                }
+                else if (p instanceof Licantropo) {
+                    Licantropo l = (Licantropo)p;
+                    Element ePeso  = doc.createElement("peso");
+                    ePeso.setTextContent("" + l.getPeso());        pe.appendChild(ePeso);
+                    Element eAlt   = doc.createElement("altura");
+                    eAlt.setTextContent("" + l.getAltura());      pe.appendChild(eAlt);
+                    Element edon   = doc.createElement("don");
+                    edon.setTextContent(l.getDon().getNombre());  pe.appendChild(edon);
                     Element eRabia = doc.createElement("rabia");
-                    eRabia.setTextContent(String.valueOf(l.getRabia()));
-                    pe.appendChild(eRabia);
-                } else if (p instanceof Cazador) {
-                    Cazador c = (Cazador) p;
+                    eRabia.setTextContent("" + l.getRabia());     pe.appendChild(eRabia);
+                }
+                else if (p instanceof Cazador) {
+                    Cazador c = (Cazador)p;
+                    Element etal = doc.createElement("talento");
+                    etal.setTextContent(c.getTalento().getNombre());pe.appendChild(etal);
                     Element eVol = doc.createElement("voluntad");
-                    eVol.setTextContent(String.valueOf(c.getVoluntad()));
-                    pe.appendChild(eVol);
+                    eVol.setTextContent("" + c.getVoluntad());     pe.appendChild(eVol);
                 }
 
                 root.appendChild(pe);
