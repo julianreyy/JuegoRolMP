@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<usuarios>
+    <usuario bloqueado="false" tipo="cliente">
+        <nombre>juli</nombre>
+        <nick>kkkk</nick>
+        <password>holaaaaa</password>
+        <registro>C41UT</registro>
+    </usuario>
+    <usuario bloqueado="false" tipo="cliente">
+        <nombre>alvaro</nombre>
+        <nick>jjjj</nick>
+        <password>pollayhuevos</password>
+        <registro>O60WC</registro>
+    </usuario>
+</usuarios>

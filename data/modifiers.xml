@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<modifiers>
+    <modificador tipo="debilidad">
+        <nombre>llaass</nombre>
+        <valor>2</valor>
+    </modificador>
+    <modificador tipo="fortaleza">
+        <nombre>zassss</nombre>
+        <valor>1</valor>
+    </modificador>
+</modifiers>
