@@ -126,11 +126,12 @@ public class XMLManager {
             String nombre = e.getElementsByTagName("nombre").item(0).getTextContent();
             String nick = e.getElementsByTagName("nick").item(0).getTextContent();
             String pwd = e.getElementsByTagName("password").item(0).getTextContent();
+            boolean blocked = (boolean) e.getElementsByTagName("bloqueado").item(0).getTextContent(); //TRANSFORMAR A BOOLEANO
             Usuario u = "operador".equalsIgnoreCase(tipo)
                     ? new Operador(nombre, nick, pwd)
                     : new Usuario(nombre, nick, pwd,
                     e.getElementsByTagName("registro").item(0).getTextContent());
-            u.setBloqueado("true".equalsIgnoreCase(e.getAttribute("bloqueado")));
+            //u.setBloqueado("true".equalsIgnoreCase(e.getAttribute("bloqueado")));
             usuarios.add(u);
         }
     }
@@ -144,7 +145,9 @@ public class XMLManager {
         for (Usuario u : usuarios) {
             Element eu = doc.createElement("usuario");
             eu.setAttribute("tipo", u instanceof Operador ? "operador" : "cliente");
-            eu.setAttribute("bloqueado", String.valueOf(u.isBloqueado()));
+            Element bl = doc.createElement("bloqueado");
+            bl.setTextContent(String.valueOf(u.isBloqueado()));
+            eu.appendChild(bl);
             Element en = doc.createElement("nombre");
             en.setTextContent(u.getNombre());
             eu.appendChild(en);

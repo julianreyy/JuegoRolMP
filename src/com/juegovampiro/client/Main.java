@@ -103,11 +103,12 @@ public class Main {
     // ───────────── INVITADO ─────────────
 
     private static void registerUser() throws Exception {
-        System.out.print("Tipo de usuario: 1. Cliente, 2. Operador");
+        System.out.println("Tipo de usuario: 1. Cliente, 2. Operador");
         int tipo = sc.nextInt();
-        System.out.print("Nombre: ");   String nombre = sc.nextLine().trim();
-        System.out.print("Nick: ");     String nick   = sc.nextLine().trim();
-        System.out.print("Password: "); String pwd    = sc.nextLine().trim();
+        sc.nextLine().trim();
+        System.out.println("Nombre: ");   String nombre   = sc.nextLine().trim();
+        System.out.println("Nick: ");     String nick   = sc.nextLine().trim();
+        System.out.println("Password: "); String pwd    = sc.nextLine().trim();
 
         if (tipo == 1) {
             // Generar registro único LNNLL usando variable final en la lambda
@@ -732,6 +733,7 @@ public class Main {
             return;
         }
         u.setBloqueado(true);
+        System.out.println("block por maricon");
         XMLManager.saveAll("data/");
         System.out.println("Usuario bloqueado.");
     }
