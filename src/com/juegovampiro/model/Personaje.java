@@ -102,21 +102,15 @@ public abstract class Personaje {
         armaduras.add(a);
     } */
 
-    /**
-     * Activa una nueva arma respetando el límite de manos:
-     * - Si es de dos manos, limpia armasActivas y añade solo esta.
-     * - Si es de una mano, añade hasta 2 armas de 1 mano.
-     */
     public boolean activarArma(Arma a) {
         if (armas.contains(a)) return false;
+
         if (a.getManos() == 2) {
-            armasActivas.clear();
+            desactivarArmas();
             armasActivas.add(a);
             return true;
         } else {
-            if (armasActivas.size() >= 2) return false;
-            // no mezclar 2-man con 1-man
-            if (!armasActivas.isEmpty() && armasActivas.get(0).getManos() == 2) return false;
+            if ((armasActivas.size() >= 2) || (!armasActivas.isEmpty() && armasActivas.get(0).getManos() == 2)) desactivarArmas();;
             armasActivas.add(a);
             return true;
         }

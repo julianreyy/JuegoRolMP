@@ -13,9 +13,15 @@
         <manos>1</manos>
     </arma>
     <arma>
-        <nombre>MegaEspada</nombre>
+        <nombre>Megaespada</nombre>
         <ataque>3</ataque>
         <defensa>3</defensa>
         <manos>2</manos>
+    </arma>
+    <arma>
+        <nombre>Palo</nombre>
+        <ataque>2</ataque>
+        <defensa>1</defensa>
+        <manos>1</manos>
     </arma>
 </armas>

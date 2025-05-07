@@ -334,7 +334,7 @@ public class XMLManager {
                 for (Arma a2: p.getArmasActivas()) {
                     Element aractit = doc.createElement("armaActiva"+aractitc);
                     aractit.setTextContent(String.valueOf(a2.getNombre()));
-                    ar.appendChild(aractit);
+                    ad.appendChild(aractit);
                     aractitc++;
                 }
                 pe.appendChild(ad);

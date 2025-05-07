@@ -9,6 +9,9 @@
         <armas>
             <arma1>Espadita</arma1>
         </armas>
+        <armasActivas>
+            <armaActiva1>Megaespada</armaActiva1>
+        </armasActivas>
         <armaduraActiva>Casco Blindado</armaduraActiva>
         <debilidades>[]</debilidades>
         <fortalezas>[]</fortalezas>

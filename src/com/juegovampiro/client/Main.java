@@ -223,12 +223,12 @@ public class Main {
         System.out.println("Personaje creado.");
     }
 
-    private static void addEsbirros(Personaje per , Demonio demonio ) {
+    private static void addEsbirros(Personaje per, Demonio demonio) {
         Esbirro e;
         int op;
         boolean stop  = false;
         do{
-        System.out.print("Tipo (1=D,2=G 3=H 4:no aniadir): ");
+        System.out.println("Tipo (1. Demonio,2. Ghoul, 3. Humano, 4: No añadir): ");
         op = readInt();
         String name = null;
         int h = 0;
@@ -386,7 +386,7 @@ public class Main {
                 listarArmaduras();
                 System.out.print("Número armadura: ");
                 //String n2 = sc.nextLine();
-                int n2 = readInt();
+                int n2 = readInt()-1;
                 //System.out.print("ModDef(1–3): ");
                 int ma2 = XMLManager.armaduras.get(n2).getModAtaque();
                 //System.out.print("ModAtq(1–3): ");
