@@ -8,7 +8,9 @@
         <oro>100</oro>
         <armas>
             <arma1>Espadita</arma1>
+            <armaActiva1>MegaEspada</armaActiva1>
         </armas>
+        <armasActivas/>
         <armaduraActiva>Casco Blindado</armaduraActiva>
         <debilidades>[]</debilidades>
         <fortalezas>[]</fortalezas>
