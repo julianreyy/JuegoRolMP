@@ -253,6 +253,7 @@ public class XMLManager {
                     //numArmasAct++;
                 }
 
+                /*         METER A CADA PERSONAJE P TODAS LAS ARMADURAS (ahora mismo los personajes no tienen la lista de armaduras)
                 int numArmaduras = e.getElementsByTagName("armaduras").getLength();
                 NodeList nodoArmaduras = e.getElementsByTagName("armaduras");
                 for (int contadorArmaduras = 0; contadorArmaduras < numArmaduras; contadorArmaduras++) {
@@ -262,11 +263,13 @@ public class XMLManager {
                     p.addArmadura(armadura);
                     //numArmaduras++;
                 }
+                */
 
                 String armaduraActiva = e.getElementsByTagName("armaduraActiva").item(0).getTextContent();
-                Armadura armaduraAct = armaduras.get(getArmaduraNum(armaduraActiva));
-
-                p.setArmaduraActiva(armaduraAct);
+                if (!armaduraActiva.isEmpty()) {
+                    Armadura armaduraAct = armaduras.get(getArmaduraNum(armaduraActiva));
+                    p.setArmaduraActiva(armaduraAct);
+                }
                 personajes.add(p);
                 owner.addPersonaje(p);
             }
@@ -313,11 +316,13 @@ public class XMLManager {
 
                 Element ar = doc.createElement("armas");
                 int aritc = 1;
-                for (Arma a: p.getArmas()) {
-                    Element arit = doc.createElement("arma"+aritc);
-                    arit.setTextContent(String.valueOf(a.getNombre()));
-                    ar.appendChild(arit);
-                    aritc++;
+                if (!(p.getArmas().getFirst() == null)) {
+                    for (Arma a: p.getArmas()) {
+                        Element arit = doc.createElement("arma"+aritc);
+                        arit.setTextContent(String.valueOf(a.getNombre()));
+                        ar.appendChild(arit);
+                        aritc++;
+                    }
                 }
                 pe.appendChild(ar);
 
@@ -331,6 +336,7 @@ public class XMLManager {
                 }
                 pe.appendChild(ad);
 
+                /*
                 Element am = doc.createElement("armaduras");
                 int amitc = 1;
                 for (Armadura ama: p.getArmaduras()) {
@@ -340,6 +346,7 @@ public class XMLManager {
                     amitc++;
                 }
                 pe.appendChild(am);
+                 */
 
                 Element am2 = doc.createElement("armaduraActiva");
                 if (p.getArmaduraActiva() != null) {
@@ -782,24 +789,25 @@ public class XMLManager {
     }
     private static int getArmaNum(String n){
         int k = 0;
-        int numTalent = -1;
+        int numArma = -1;
         for (Arma ar : armas) {
             if (n.trim().equals(ar.getNombre())) {
-                numTalent = k;
+                numArma = k;
             }
             k++;
         }
-        return numTalent;
+        return numArma;
     }
     private static int getArmaduraNum(String n){
         int k = 0;
-        int numTalent = -1;
+        int numArmadura = -1;
+        //ESTOS FOR DEBERIAN ESTAR METIDOS EN WHILE PARA NO SEGUIR ITERANDO SI SE HA ENCONTRADO LA POSICION
         for (Armadura am : armaduras) {
             if (n.trim().equals(am.getNombre())) {
-                numTalent = k;
+                numArmadura = k;
             }
             k++;
         }
-        return numTalent;
+        return numArmadura;
     }
 }

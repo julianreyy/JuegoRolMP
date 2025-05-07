@@ -330,7 +330,7 @@ public class Main {
             System.out.printf("%d) %s\n", i+1, lst.get(i));
             System.out.println("Armas: "+lst.get(i).getArmas());
             System.out.println("Armas Activas: "+lst.get(i).getArmasActivas());
-            System.out.println("Armaduras: "+lst.get(i).getArmaduras());
+            //System.out.println("Armaduras: "+lst.get(i).getArmaduras());
             System.out.println("Armadura Activa: "+lst.get(i).getArmaduraActiva());
             System.out.println("Esbirros: "+lst.get(i).getEsbirros());
             System.out.println("Debilidades: "+lst.get(i).getDebilidades());
@@ -362,7 +362,7 @@ public class Main {
         List<Personaje> lst = currentUser.getPersonajes();
         if (lst.isEmpty()) { System.out.println("No tienes personajes."); return; }
         int coscu = 0;
-        for (Personaje p: personajes) {
+        for (Personaje p: lst) {
             coscu++;
             System.out.println(coscu + " " + p.getNombre());
         }
@@ -372,17 +372,13 @@ public class Main {
             case 1 -> {
                 listarArmas();
                 System.out.print("Número arma: ");
-                //String n = sc.nextLine();
                 int n = readInt()-1;
-                //System.out.print("ModAtq (1–3): ");
                 int ma = XMLManager.armas.get(n).getModAtaque(); // =readInt();
-                //System.out.print("ModDef (1–3): ");
                 int md = XMLManager.armas.get(n).getModDefensa();
-                //System.out.print("Manos(1|2): ");
                 int m = XMLManager.armas.get(n).getManos();
                 String nombre = XMLManager.armas.get(n).getNombre();
                 Arma a = new Arma(nombre, ma, md, m);
-                if (p.activarArma(a)) System.out.println("Arma activa.");
+  /*REVISAR*/   if (p.activarArma(XMLManager.armas.get(n))) System.out.println("Arma activa."); // if (p.activarArma(a))
                 else System.out.println("No se ha podido activar el arma.");
             }
             case 2 -> {
