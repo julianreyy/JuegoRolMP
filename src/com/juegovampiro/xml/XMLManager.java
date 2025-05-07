@@ -117,7 +117,8 @@ public class XMLManager {
         usuarios.clear();
         File f = new File(path);
         if (!f.exists()) return;
-        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(f);
+        DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        Document doc = db.parse(f);
         NodeList nodes = doc.getElementsByTagName("usuario");
         for (int i = 0; i < nodes.getLength(); i++) {
             Element e = (Element) nodes.item(i);
@@ -135,7 +136,9 @@ public class XMLManager {
     }
 
     public static void saveUsers(String path) throws Exception {
-        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+        File f = new File(path);
+        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(f);
+        //Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
         Element root = doc.createElement("usuarios");
         doc.appendChild(root);
         for (Usuario u : usuarios) {

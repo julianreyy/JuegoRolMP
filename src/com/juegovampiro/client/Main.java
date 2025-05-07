@@ -103,7 +103,8 @@ public class Main {
     // ───────────── INVITADO ─────────────
 
     private static void registerUser() throws Exception {
-        System.out.print("Tipo de usuario: 1. Operador, 2. Cliente");   int tipo = sc.nextInt();
+        System.out.print("Tipo de usuario: 1. Cliente, 2. Operador");
+        int tipo = sc.nextInt();
         System.out.print("Nombre: ");   String nombre = sc.nextLine().trim();
         System.out.print("Nick: ");     String nick   = sc.nextLine().trim();
         System.out.print("Password: "); String pwd    = sc.nextLine().trim();
@@ -397,7 +398,7 @@ public class Main {
             }
             default -> System.out.println("Opción inválida.");
         }
-        XMLManager.saveCharacters("data/");
+        XMLManager.saveCharacters("data/personajes.xml");
     }
 
     private static void desafiarUsuario() throws Exception {
