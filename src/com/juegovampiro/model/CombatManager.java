@@ -37,28 +37,48 @@ public class CombatManager {
         List<Ronda> rondas = new ArrayList<>();
         int round = 1;
         while (retador.getSalud() > 0 && desafiado.getSalud() > 0 ) {
-            int danoD   = Math.max(0,
-                    retador.getPoder()
-                            + retador.getArmasActivas().stream().mapToInt(a -> a.getModAtaque()).sum()
-                            - desafiado.getArmaduraActiva().getModDefensa()
-            );
-            if(desafiado.getSaludEsbirros()> 0){
-                desafiado.setSaludEsbirros(desafiado.getSaludEsbirros()-danoD);
-            }
-            else{
-            desafiado.setSalud(desafiado.getSalud() - danoD);
-            }
 
-            int danoR   = Math.max(0,
-                    desafiado.getPoder()
-                            + desafiado.getArmasActivas().stream().mapToInt(a -> a.getModAtaque()).sum()
-                            - retador.getArmaduraActiva().getModDefensa()
-            );
-            if (retador.getSaludEsbirros() >0){
-                retador.setSaludEsbirros(retador.getSaludEsbirros()-danoR);
+            int danoD   = 0;
+            int danoR   = 0;
+            int defensaD = 0;
+            int defensaR = 0;
+
+
+            for(int i = 0; i < desafiado.calcularPdAt(); i++){
+                if((Math.floor(Math.random() * 6) + 1)>= 5){
+                    danoD+= 1;
+                }
+
             }
-            else {
-                retador.setSalud(retador.getSalud() - danoR);
+            for(int i = 0; i < desafiado.calcularPdDf(); i++){
+                if((Math.floor(Math.random() * 6) + 1)>= 5){
+                    defensaD+= 1;
+                }
+            }
+            for(int i = 0; i < retador.calcularPdAt(); i++){
+                if((Math.floor(Math.random() * 6) + 1)>= 5){
+                    danoR+= 1;
+                }
+            }
+            for(int i = 0; i < retador.calcularPdDf(); i++){
+                if((Math.floor(Math.random() * 6) + 1)>= 5){
+                    defensaR+= 1;
+                }
+            }
+            if (danoR >= defensaD) {
+
+                if (desafiado.getSaludEsbirros() > 0) {
+                    desafiado.setSaludEsbirros(desafiado.getSaludEsbirros() - 1);
+                } else {
+                    desafiado.setSalud(desafiado.getSalud() - 1);
+                }
+            }
+            if (danoD>= defensaR) {
+                if (retador.getSaludEsbirros() > 0) {
+                    retador.setSaludEsbirros(retador.getSaludEsbirros() - 1);
+                } else {
+                    retador.setSalud(retador.getSalud() - 1);
+                }
             }
             rondas.add(new Ronda(round++, danoR, danoD));
         }
