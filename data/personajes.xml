@@ -3,19 +3,34 @@
     <personaje tipo="vampiro">
         <nickOwner>kkkk</nickOwner>
         <nombre>vampiri</nombre>
-        <salud>5</salud>
+        <salud>4</salud>
         <poder>5</poder>
         <oro>100</oro>
         <armas>
             <arma1>Espadita</arma1>
         </armas>
         <armasActivas>
-            <armaActiva1>Megaespada</armaActiva1>
+            <armaActiva1>Palo</armaActiva1>
         </armasActivas>
         <armaduraActiva>Casco Blindado</armaduraActiva>
         <debilidades>[]</debilidades>
         <fortalezas>[]</fortalezas>
         <edad>55</edad>
+        <sangre>0</sangre>
+        <disciplina>sangreDura</disciplina>
+    </personaje>
+    <personaje tipo="vampiro">
+        <nickOwner>kkkk</nickOwner>
+        <nombre>ret</nombre>
+        <salud>4</salud>
+        <poder>3</poder>
+        <oro>4555</oro>
+        <armas/>
+        <armasActivas/>
+        <armaduraActiva>null</armaduraActiva>
+        <debilidades>[]</debilidades>
+        <fortalezas>[]</fortalezas>
+        <edad>11</edad>
         <sangre>0</sangre>
         <disciplina>sangreDura</disciplina>
     </personaje>

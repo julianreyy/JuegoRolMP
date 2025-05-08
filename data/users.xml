@@ -41,4 +41,10 @@
         <password>tralalero</password>
         <registro>Y40YA</registro>
     </usuario>
+    <usuario tipo="operador">
+        <bloqueado>false</bloqueado>
+        <nombre>43t4</nombre>
+        <nick>t45y5</nick>
+        <password>gr55ygerrf</password>
+    </usuario>
 </usuarios>

@@ -304,7 +304,9 @@ public class Main {
                 i++;
             }
             deb = readInt() ;
-            per.addDebilidad(debilidades.get(deb));
+            if (deb != -1) {
+                per.addDebilidad(debilidades.get(deb));
+            }
         }while (deb > -1);
 
         int fort = -1;
@@ -316,9 +318,11 @@ public class Main {
                 i++;
             }
             fort = readInt() ;
-            per.addFortaleza(fortalezas.get(fort));
+            if (fort != -1) {
+                per.addFortaleza(fortalezas.get(fort));
+            }
 
-        }while (fort >-1);
+        }while (fort > -1);
 
     }
 

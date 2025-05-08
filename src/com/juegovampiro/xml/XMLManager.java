@@ -322,7 +322,7 @@ public class XMLManager {
 
                 Element ar = doc.createElement("armas");
                 int aritc = 1;
-                if (!(p.getArmas().getFirst() == null)) {
+                if (!(p.getArmas() == null)) {
                     for (Arma a: p.getArmas()) {
                         Element arit = doc.createElement("arma"+aritc);
                         arit.setTextContent(String.valueOf(a.getNombre()));
