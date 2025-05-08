@@ -42,6 +42,8 @@ public class CombatManager {
             int danoR   = 0;
             int defensaD = 0;
             int defensaR = 0;
+            boolean exitoRetador =false;
+            boolean exitoDesafiado =false;
 
 
             for(int i = 0; i < desafiado.calcularPdAt(); i++){
@@ -66,6 +68,7 @@ public class CombatManager {
                 }
             }
             if (danoR >= defensaD) {
+                exitoRetador = true;
                 if(retador instanceof Vampiro){
                     ((Vampiro) retador).setSangre(((Vampiro) retador).getSangre()+4);
                 }
@@ -90,7 +93,7 @@ public class CombatManager {
                 }
             }
             if (danoD>= defensaR) {
-
+                exitoDesafiado = true;
                     if (desafiado instanceof  Vampiro) {
                         ((Vampiro) retador).setSangre(((Vampiro) retador).getSangre()+4);
                     }
@@ -113,7 +116,21 @@ public class CombatManager {
                     retador.setSalud(retador.getSalud() - 1);
                 }
             }
-            System.out.println("Ronda: "+ round + " , daño retador: " + danoR + " , daño desafiado: " + danoD);
+
+            String retadorNick = retUser.getNick();
+            String desafiadoNick = desUser.getNick();
+            String ataqueRetador = "ataque fallado";
+            String ataqueDesafiado = "ataque fallado";
+            if (exitoRetador) {
+                ataqueRetador = "ataque exitoso";
+            }
+            if (exitoDesafiado) {
+                ataqueDesafiado = "ataque exitoso";
+            }
+
+
+
+            System.out.println("Ronda "+ round +": "+ retadorNick+ ": " + ataqueRetador + ", " + desafiadoNick +": "+ataqueDesafiado);
             Ronda rondaAct = new Ronda(round++, danoR, danoD);
             rondas.add(rondaAct);
         }

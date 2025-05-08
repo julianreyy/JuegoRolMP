@@ -443,6 +443,15 @@ public class Main {
         Desafio d = pend.get(readInt()-1);
         System.out.println("1) Aceptar  2) Rechazar");
         if (readInt() == 1) {
+            int o ;
+            do {
+                System.out.println("quieres cambiar de equipamiento: 1:si 2:no");
+                 o= readInt();
+                if (o == 1) {
+                    equiparPersonaje();
+                }
+                else { o=2; }
+            }while (o!=2);
             Combate c = DesafioManager.aceptarDesafio(d);
             System.out.println("¡Combate finalizado! Ganador: " + c.getGanadorNick());
         } else {

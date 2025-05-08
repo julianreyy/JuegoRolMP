@@ -1,5 +1,6 @@
 package com.juegovampiro.model;
 
+import com.juegovampiro.client.Main;
 import com.juegovampiro.xml.XMLManager;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,6 +71,7 @@ public class DesafioManager {
                 .orElseThrow();
 
         // Simular combate
+
         Combate c = CombatManager.simularCombate(
                 retUser, retChar, desUser, desChar, d.getApuesta()
         );
