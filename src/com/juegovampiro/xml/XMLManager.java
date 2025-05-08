@@ -126,12 +126,13 @@ public class XMLManager {
             String nombre = e.getElementsByTagName("nombre").item(0).getTextContent();
             String nick = e.getElementsByTagName("nick").item(0).getTextContent();
             String pwd = e.getElementsByTagName("password").item(0).getTextContent();
-            boolean blocked = Boolean.parseBoolean(e.getElementsByTagName("bloqueado").item(0).getTextContent()); //TRANSFORMAR A BOOLEANO
+            boolean blocked = Boolean.parseBoolean(e.getElementsByTagName("bloqueado").item(0).getTextContent()); //TRANSFORMAR A BOOLEAN
             Usuario u = "operador".equalsIgnoreCase(tipo)
                     ? new Operador(nombre, nick, pwd)
                     : new Usuario(nombre, nick, pwd,
                     e.getElementsByTagName("registro").item(0).getTextContent());
             //u.setBloqueado("true".equalsIgnoreCase(e.getAttribute("bloqueado")));
+            u.setBloqueado(blocked);
             usuarios.add(u);
         }
     }

@@ -21,7 +21,7 @@
         <password>pollayhuevos</password>
     </usuario>
     <usuario tipo="cliente">
-        <bloqueado>false</bloqueado>
+        <bloqueado>true</bloqueado>
         <nombre>tete</nombre>
         <nick>teta</nick>
         <password>pollica999</password>

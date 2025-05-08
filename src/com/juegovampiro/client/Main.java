@@ -17,7 +17,7 @@ public class Main {
         XMLManager.loadAll("data/");
         boolean running = true;
         while (running) {
-            if (currentUser == null) {
+            if ((currentUser == null) || (currentUser.isBloqueado())) {
                 showGuestMenu();
                 switch (readInt()) {
                     case 1 -> registerUser();
@@ -146,6 +146,8 @@ public class Main {
                 .findFirst().orElse(null);
         if (currentUser == null) {
             System.out.println("Credenciales inválidas.");
+        } else if (currentUser.isBloqueado()) {
+            System.out.println("El usuario está bloqueado.");
         } else {
             /*for (Personaje p : XMLManager.personajes) {
                 if (currentUser)
