@@ -12,7 +12,7 @@
         <armasActivas>
             <armaActiva1>Palo</armaActiva1>
         </armasActivas>
-        <armaduraActiva>Casco Blindado</armaduraActiva>
+        <armaduraActiva>Casco</armaduraActiva>
         <debilidades>[]</debilidades>
         <fortalezas>[]</fortalezas>
         <edad>55</edad>
@@ -27,10 +27,27 @@
         <oro>4555</oro>
         <armas/>
         <armasActivas/>
-        <armaduraActiva>null</armaduraActiva>
+        <armaduraActiva>Casco</armaduraActiva>
         <debilidades>[]</debilidades>
         <fortalezas>[]</fortalezas>
         <edad>11</edad>
+        <sangre>0</sangre>
+        <disciplina>sangreDura</disciplina>
+    </personaje>
+    <personaje tipo="vampiro">
+        <nickOwner>jjjj</nickOwner>
+        <nombre>jose</nombre>
+        <salud>2</salud>
+        <poder>2</poder>
+        <oro>566666</oro>
+        <armas/>
+        <armasActivas>
+            <armaActiva1>Palo</armaActiva1>
+        </armasActivas>
+        <armaduraActiva>Casco de Hades</armaduraActiva>
+        <debilidades>[]</debilidades>
+        <fortalezas>[]</fortalezas>
+        <edad>33</edad>
         <sangre>0</sangre>
         <disciplina>sangreDura</disciplina>
     </personaje>

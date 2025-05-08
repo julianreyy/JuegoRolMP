@@ -254,8 +254,14 @@ public class XMLManager {
                 NodeList nodoArmasAct = e.getElementsByTagName("armasActivas");
                 for (int contadorArmasA = 0; contadorArmasA < numArmasAct; contadorArmasA++) {
                     String nombreArmaAct = nodoArmasAct.item(contadorArmasA).getTextContent();
-                    Arma armaA = armas.get(getArmaNum(nombreArmaAct));
-                    p.activarArma(armaA);
+                    int exists = getArmaNum(nombreArmaAct);
+                    if (exists != -1) {
+                        Arma armaA = armas.get(getArmaNum(nombreArmaAct));
+                        p.activarArma(armaA);
+                    } else {
+                        Arma arma = null;
+                        p.activarArma(arma);
+                    }
                     //numArmasAct++;
                 }
 
@@ -272,9 +278,13 @@ public class XMLManager {
                 */
 
                 String armaduraActiva = e.getElementsByTagName("armaduraActiva").item(0).getTextContent();
-                if (!armaduraActiva.isEmpty()) {
+                int exists = getArmaNum(armaduraActiva);
+                if (exists != -1) {
                     Armadura armaduraAct = armaduras.get(getArmaduraNum(armaduraActiva));
                     p.setArmaduraActiva(armaduraAct);
+                } else {
+                    Armadura armadura = null;
+                    p.setArmaduraActiva(armadura);
                 }
                 personajes.add(p);
                 owner.addPersonaje(p);
@@ -322,12 +332,14 @@ public class XMLManager {
 
                 Element ar = doc.createElement("armas");
                 int aritc = 1;
-                if (!(p.getArmas() == null)) {
+                if (p.getArmas() != null) {
                     for (Arma a: p.getArmas()) {
-                        Element arit = doc.createElement("arma"+aritc);
-                        arit.setTextContent(String.valueOf(a.getNombre()));
-                        ar.appendChild(arit);
-                        aritc++;
+                        if (a != null) {
+                            Element arit = doc.createElement("arma" + aritc);
+                            arit.setTextContent(String.valueOf(a.getNombre()));
+                            ar.appendChild(arit);
+                            aritc++;
+                        }
                     }
                 }
                 pe.appendChild(ar);
