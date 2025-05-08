@@ -126,7 +126,7 @@ public class XMLManager {
             String nombre = e.getElementsByTagName("nombre").item(0).getTextContent();
             String nick = e.getElementsByTagName("nick").item(0).getTextContent();
             String pwd = e.getElementsByTagName("password").item(0).getTextContent();
-            boolean blocked = (boolean) e.getElementsByTagName("bloqueado").item(0).getTextContent(); //TRANSFORMAR A BOOLEANO
+            boolean blocked = Boolean.parseBoolean(e.getElementsByTagName("bloqueado").item(0).getTextContent()); //TRANSFORMAR A BOOLEANO
             Usuario u = "operador".equalsIgnoreCase(tipo)
                     ? new Operador(nombre, nick, pwd)
                     : new Usuario(nombre, nick, pwd,
@@ -138,8 +138,8 @@ public class XMLManager {
 
     public static void saveUsers(String path) throws Exception {
         File f = new File(path);
-        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(f);
-        //Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+        //Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(f);
+        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
         Element root = doc.createElement("usuarios");
         doc.appendChild(root);
         for (Usuario u : usuarios) {

@@ -733,7 +733,6 @@ public class Main {
             return;
         }
         u.setBloqueado(true);
-        System.out.println("block por maricon");
         XMLManager.saveAll("data/");
         System.out.println("Usuario bloqueado.");
     }

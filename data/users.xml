@@ -14,10 +14,31 @@
         <password>pollayhuevos</password>
         <registro>O60WC</registro>
     </usuario>
-<usuario tipo="operador">
-    <bloqueado>false</bloqueado>
-    <nombre>pollica</nombre>
-    <nick>polli</nick>
-    <password>pollayhuevos</password>
-</usuario>
+    <usuario tipo="operador">
+        <bloqueado>false</bloqueado>
+        <nombre>pollica</nombre>
+        <nick>polli</nick>
+        <password>pollayhuevos</password>
+    </usuario>
+    <usuario tipo="cliente">
+        <bloqueado>false</bloqueado>
+        <nombre>tete</nombre>
+        <nick>teta</nick>
+        <password>pollica999</password>
+        <registro>J03UT</registro>
+    </usuario>
+    <usuario tipo="cliente">
+        <bloqueado>false</bloqueado>
+        <nombre>lola</nombre>
+        <nick>lolta</nick>
+        <password>lolalolita</password>
+        <registro>B22KZ</registro>
+    </usuario>
+    <usuario tipo="cliente">
+        <bloqueado>false</bloqueado>
+        <nombre>atlas</nombre>
+        <nick>lean</nick>
+        <password>tralalero</password>
+        <registro>Y40YA</registro>
+    </usuario>
 </usuarios>
