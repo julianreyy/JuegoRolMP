@@ -17,7 +17,6 @@ public class DesafioManager {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Usuario desafiado no existe"));
 
-        System.out.println(retChar.getArmasActivas());
 
         if (retChar.getOro() < apuesta || apuesta < 0) {
             //throw new IllegalArgumentException("Apuesta inválida o fondos insuficientes");

@@ -278,7 +278,7 @@ public class XMLManager {
                 */
 
                 String armaduraActiva = e.getElementsByTagName("armaduraActiva").item(0).getTextContent();
-                int exists = getArmaNum(armaduraActiva);
+                int exists = getArmaduraNum(armaduraActiva);
                 if (exists != -1) {
                     Armadura armaduraAct = armaduras.get(getArmaduraNum(armaduraActiva));
                     p.setArmaduraActiva(armaduraAct);

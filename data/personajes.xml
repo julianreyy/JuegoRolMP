@@ -5,14 +5,14 @@
         <nombre>vampiri</nombre>
         <salud>4</salud>
         <poder>5</poder>
-        <oro>100</oro>
+        <oro>120</oro>
         <armas>
             <arma1>Espadita</arma1>
         </armas>
         <armasActivas>
             <armaActiva1>Palo</armaActiva1>
         </armasActivas>
-        <armaduraActiva>Casco</armaduraActiva>
+        <armaduraActiva>Casco Blindado</armaduraActiva>
         <debilidades>[]</debilidades>
         <fortalezas>[]</fortalezas>
         <edad>55</edad>
@@ -27,7 +27,7 @@
         <oro>4555</oro>
         <armas/>
         <armasActivas/>
-        <armaduraActiva>Casco</armaduraActiva>
+        <armaduraActiva>null</armaduraActiva>
         <debilidades>[]</debilidades>
         <fortalezas>[]</fortalezas>
         <edad>11</edad>
@@ -39,12 +39,12 @@
         <nombre>jose</nombre>
         <salud>2</salud>
         <poder>2</poder>
-        <oro>566666</oro>
+        <oro>566646</oro>
         <armas/>
         <armasActivas>
             <armaActiva1>Palo</armaActiva1>
         </armasActivas>
-        <armaduraActiva>Casco de Hades</armaduraActiva>
+        <armaduraActiva>Casco</armaduraActiva>
         <debilidades>[]</debilidades>
         <fortalezas>[]</fortalezas>
         <edad>33</edad>
