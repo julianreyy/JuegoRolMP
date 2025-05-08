@@ -66,6 +66,22 @@ public class CombatManager {
                 }
             }
             if (danoR >= defensaD) {
+                if(retador instanceof Vampiro){
+                    ((Vampiro) retador).setSangre(((Vampiro) retador).getSangre()+4);
+                }
+                if(desafiado instanceof  Cazador){
+                    ((Cazador) desafiado).setVoluntad(((Cazador) desafiado).getVoluntad()+1);
+
+                } else if (desafiado instanceof Licantropo ) {
+                    ((Licantropo) desafiado).setRabia(((Licantropo) desafiado).getRabia()+1);
+
+                }
+
+                if (desafiado.getSaludEsbirros() > 0) {
+                    desafiado.setSaludEsbirros(desafiado.getSaludEsbirros() - 1);
+                } else {
+                    desafiado.setSalud(desafiado.getSalud() - 1);
+                }
 
                 if (desafiado.getSaludEsbirros() > 0) {
                     desafiado.setSaludEsbirros(desafiado.getSaludEsbirros() - 1);
@@ -74,13 +90,32 @@ public class CombatManager {
                 }
             }
             if (danoD>= defensaR) {
+
+                    if (desafiado instanceof  Vampiro) {
+                        ((Vampiro) retador).setSangre(((Vampiro) retador).getSangre()+4);
+                    }
+                    if(retador instanceof  Cazador){
+                        ((Cazador) retador).setVoluntad(((Cazador) retador).getVoluntad()+1);
+
+                    } else if (retador instanceof Licantropo ) {
+                        ((Licantropo) retador).setRabia(((Licantropo) retador).getRabia()+1);
+
+                    }
+                    if (retador.getSaludEsbirros() > 0) {
+                        retador.setSaludEsbirros(retador.getSaludEsbirros() - 1);
+                    } else {
+                    retador.setSalud(retador.getSalud() - 1);
+                }
+
                 if (retador.getSaludEsbirros() > 0) {
                     retador.setSaludEsbirros(retador.getSaludEsbirros() - 1);
                 } else {
                     retador.setSalud(retador.getSalud() - 1);
                 }
             }
-            rondas.add(new Ronda(round++, danoR, danoD));
+            System.out.println("Ronda: "+ round + " , daño retador: " + danoR + " , daño desafiado: " + danoD);
+            Ronda rondaAct = new Ronda(round++, danoR, danoD);
+            rondas.add(rondaAct);
         }
 
         String ganador;
